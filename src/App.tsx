@@ -32,18 +32,14 @@ import { cn } from './lib/utils';
 // --- Components ---
 
 const Logo = ({ className, light = false }: { className?: string; light?: boolean }) => (
-  <div className={cn("flex items-center gap-2", className)}>
-    <a href="/LOGO (1).pdf" target="_blank" rel="noopener noreferrer" className="relative w-12 h-12 flex items-center justify-center bg-white rounded-full overflow-hidden shadow-sm hover:scale-105 transition-transform shrink-0">
-      <object data="/LOGO (1).pdf#toolbar=0&navpanes=0&scrollbar=0" type="application/pdf" className="w-[130%] h-[130%] pointer-events-none" aria-label="Logo">
-        <div className="absolute inset-0 border-2 border-[#C5A059] rotate-45 rounded-sm"></div>
-        <div className="relative z-10 text-[#0A192F] font-bold text-xl">S</div>
-      </object>
-    </a>
-    <div className="flex flex-col leading-tight">
-      <span className={cn("text-2xl font-bold tracking-tight", light ? "text-white" : "text-[#0A192F]")}>
-        <span className="text-[#C5A059]">U</span>MEDHA
+  <div className={cn("flex items-center gap-4", className)}>
+    <img src="/new logo.png" alt="Sumedha Chits Logo" className="h-28 w-auto object-contain drop-shadow-sm shrink-0" />
+    <div className="flex flex-col leading-none">
+      <span className={cn("font-bold tracking-tight flex items-baseline", light ? "text-white" : "text-[#0A192F]")}>
+        <span className="text-[#4169e1] text-[2.5rem] leading-none">U</span>
+        <span className="text-2xl">MEDHA</span>
       </span>
-      <span className={cn("text-[10px] font-bold tracking-[0.2em]", light ? "text-gray-400" : "text-[#0A192F]")}>CHITS PVT LTD</span>
+      <span className={cn("text-xs font-bold tracking-[0.2em] mt-1", light ? "text-gray-400" : "text-[#0A192F]")}>CHITS PVT LTD</span>
     </div>
   </div>
 );
@@ -89,12 +85,14 @@ const SchemeCard = ({
   amount, 
   duration, 
   dividend, 
+  subscription,
   isPopular 
 }: { 
   title: string; 
   amount: string; 
   duration: string; 
-  dividend: string; 
+  dividend: string;
+  subscription: string;
   isPopular?: boolean 
 }) => (
   <div className="relative bg-[#0A192F] p-8 rounded-sm text-white flex flex-col items-center text-center group hover:scale-[1.02] transition-transform duration-300">
@@ -104,8 +102,12 @@ const SchemeCard = ({
       </div>
     )}
     <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-4">{title}</h3>
-    <div className="text-2xl font-bold mb-2">₹ {amount}</div>
-    <div className="text-[11px] text-gray-400 mb-6">₹ {amount.replace(/,/g, '')} × {duration} Months</div>
+    <div className="text-2xl font-bold mb-3">₹ {amount}</div>
+    <div className="text-[11px] text-gray-400 mb-6 flex justify-center gap-3">
+      <span>Duration: {duration} M</span>
+      <span className="text-gray-600">|</span>
+      <span>Sub: ₹ {subscription}</span>
+    </div>
     <div className="bg-[#152a4a] w-full py-2 px-4 rounded-sm text-[10px] font-medium text-green-400 mb-8">
       Earn up to ₹ {dividend} Dividend
     </div>
@@ -144,27 +146,45 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
   );
 };
 
+const WhatsAppIcon = ({ size = 24 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a5.8 5.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885m8.413-18.297A11.81 11.81 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.88 11.88 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.82 11.82 0 0 0-3.48-8.413Z"/>
+  </svg>
+);
+
 // --- Main App ---
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showAllSchemes, setShowAllSchemes] = useState(false);
+
+  const SCHEMES = [
+    { amount: "2,00,000", duration: "20", dividend: "2,500", subscription: "10,000" },
+    { amount: "3,00,000", duration: "25", dividend: "3,000", subscription: "12,000" },
+    { amount: "5,00,000", duration: "20", dividend: "5,000", subscription: "25,000" },
+    { amount: "5,00,000", duration: "25", dividend: "5,000", subscription: "20,000", isPopular: true },
+    { amount: "5,00,000", duration: "40", dividend: "4,375", subscription: "12,500" },
+    { amount: "10,00,000", duration: "30", dividend: "8,333", subscription: "33,333" },
+    { amount: "10,00,000", duration: "40", dividend: "8,750", subscription: "25,000" },
+    { amount: "25,00,000", duration: "40", dividend: "21,875", subscription: "62,500", isPopular: true }
+  ];
+
+  const displayedSchemes = showAllSchemes ? SCHEMES : SCHEMES.slice(0, 4);
 
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-[#C5A059] selection:text-white">
+    <div className="min-h-screen bg-[#0A192F] font-sans text-white selection:bg-[#C5A059] selection:text-white">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100">
+      <header className="sticky top-0 z-50 bg-[#0A192F]/95 backdrop-blur-sm border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
-          <Logo />
+          <Logo light={true} />
           
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-8">
             <NavLink href="#">Home</NavLink>
-            <NavLink href="#">Schemes</NavLink>
-            <NavLink href="#">Documents</NavLink>
-            <NavLink href="#">Compliance</NavLink>
-            <NavLink href="#">Investor Corner</NavLink>
-            <NavLink href="#">FAQ</NavLink>
-            <NavLink href="#">Support</NavLink>
+            <NavLink href="#schemes">Schemes</NavLink>
+            <NavLink href="#compliance">Compliance</NavLink>
+            <NavLink href="#faq">FAQ</NavLink>
+            <NavLink href="#support">Support</NavLink>
           </nav>
 
           {/* Mobile Menu Toggle */}
@@ -180,15 +200,13 @@ export default function App() {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="lg:hidden absolute top-20 left-0 w-full bg-white border-b border-gray-100 p-6 flex flex-col gap-4"
+              className="lg:hidden absolute top-20 left-0 w-full bg-[#0A192F] border-b border-gray-800 p-6 flex flex-col gap-4"
             >
               <NavLink href="#">Home</NavLink>
-              <NavLink href="#">Schemes</NavLink>
-              <NavLink href="#">Documents</NavLink>
-              <NavLink href="#">Compliance</NavLink>
-              <NavLink href="#">Investor Corner</NavLink>
-              <NavLink href="#">FAQ</NavLink>
-              <NavLink href="#">Support</NavLink>
+              <NavLink href="#schemes">Schemes</NavLink>
+              <NavLink href="#compliance">Compliance</NavLink>
+              <NavLink href="#faq">FAQ</NavLink>
+              <NavLink href="#support">Support</NavLink>
             </motion.div>
           )}
         </AnimatePresence>
@@ -204,11 +222,8 @@ export default function App() {
               transition={{ duration: 0.6 }}
               className="flex justify-center mb-8"
             >
-              <div className="relative w-24 h-24 flex items-center justify-center bg-white rounded-2xl shadow-xl overflow-hidden p-2">
-                <object data="/LOGO (1).pdf#toolbar=0&navpanes=0&scrollbar=0" type="application/pdf" className="w-full h-full pointer-events-none" aria-label="Logo">
-                  <div className="absolute inset-0 border-4 border-[#C5A059] rotate-45 rounded-md"></div>
-                  <div className="relative z-10 text-[#0A192F] font-bold text-4xl">S</div>
-                </object>
+              <div className="relative h-28 flex flex-col items-center justify-center pointer-events-none">
+                <img src="/new logo.png" alt="Sumedha Chits Logo" className="w-auto h-full object-contain drop-shadow-xl hover:scale-105 transition-transform" />
               </div>
             </motion.div>
             
@@ -217,27 +232,29 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <h2 className="text-[12px] font-bold uppercase tracking-[0.4em] text-[#0A192F] mb-4">
+              <h2 className="text-[16px] md:text-[20px] font-extrabold uppercase tracking-widest text-[#4169E1] mb-4 drop-shadow-sm">
                 SUMEDHA CHITS PVT LIMITED
               </h2>
-              <p className="text-[10px] text-gray-400 mb-8 tracking-widest">CIN: U65990KA2021PTC144520</p>
+              <p className="text-[10px] text-gray-400 mb-8 tracking-widest">CIN: U64190KA2026PTC217660</p>
               
               <p className="text-[11px] font-medium text-[#C5A059] mb-4 uppercase tracking-widest">
                 Karnataka's Regulated Digital Chit Fund
               </p>
               
-              <h1 className="text-5xl md:text-6xl font-bold text-[#0A192F] mb-6 leading-tight">
+              <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
                 Secure Growth for <br />
                 <span className="text-[#C5A059]">Secure Digital Investing</span>
               </h1>
               
               <p className="max-w-2xl mx-auto text-gray-500 text-sm leading-relaxed mb-12">
-                At sumedha chits private limited, we are committed to providing reliable, transparent, <br className="hidden md:block" />
+                At Sumedha Chits Private Ltd, we are committed to providing reliable, transparent, <br className="hidden md:block" />
                 and customer-friendly chit fund services.
               </p>
               
               <div className="flex flex-wrap justify-center gap-4 mb-16">
-                <Button variant="primary">View Schemes</Button>
+                <a href="#schemes">
+                  <Button variant="primary" className="w-full h-full">View Schemes</Button>
+                </a>
                 <a href="https://play.google.com/store/apps/details?id=com.sreeyainfotech.chitcaresasmember" target="_blank" rel="noopener noreferrer">
                   <Button variant="secondary" className="w-full h-full">Download App</Button>
                 </a>
@@ -249,17 +266,17 @@ export default function App() {
                     <ShieldCheck className="text-[#C5A059]" size={20} />
                   </div>
                   <div>
-                    <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400">Regulated By</p>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-[#0A192F]">Govt. of Karnataka</p>
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-[#C5A059]">Regulated By</p>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-white">Govt. of Karnataka</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 text-left">
-                  <div className="p-2 rounded-full border border-gray-200">
+                  <div className="p-2 rounded-full border border-gray-700">
                     <CheckCircle2 className="text-[#C5A059]" size={20} />
                   </div>
                   <div>
-                    <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400">Registered Under</p>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-[#0A192F]">Chit Funds Act 1982</p>
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-[#C5A059]">Registered Under</p>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-white">Chit Funds Act 1982</p>
                   </div>
                 </div>
               </div>
@@ -268,7 +285,7 @@ export default function App() {
         </section>
 
         {/* Schemes Section */}
-        <section className="py-24 bg-gray-50">
+        <section className="py-24 bg-[#0A192F] border-t border-gray-800" id="schemes">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -278,22 +295,24 @@ export default function App() {
           >
             <div className="text-center mb-16">
               <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#C5A059] mb-4">Investment Plans</p>
-              <h2 className="text-3xl font-bold text-[#0A192F]">Our Popular Schemes</h2>
+              <h2 className="text-3xl font-bold text-white">Our Popular Schemes</h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-              <SchemeCard title="Micro Savings" amount="2,00,000" duration="20" dividend="2,500" />
-              <SchemeCard title="Retail Savings" amount="3,00,000" duration="25" dividend="3,000" />
-              <SchemeCard title="Business Growth" amount="5,00,000" duration="20" dividend="5,000" isPopular />
-              <SchemeCard title="Premium Savings" amount="5,00,000" duration="25" dividend="5,000" />
-              <SchemeCard title="HNI Wealth" amount="5,00,000" duration="40" dividend="4,375" />
-              <SchemeCard title="Elite Corporate" amount="10,00,000" duration="30" dividend="8,333" />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+              {displayedSchemes.map((scheme, idx) => (
+                <SchemeCard key={idx} title="Chit Scheme" {...scheme} />
+              ))}
             </div>
 
-            <div className="flex justify-center">
-              <button className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-[#C5A059] hover:gap-4 transition-all">
-                View All Schemes <ArrowRight size={14} />
-              </button>
+            <div className="flex justify-center h-10">
+              {!showAllSchemes && (
+                <button 
+                  onClick={() => setShowAllSchemes(true)}
+                  className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-[#C5A059] hover:gap-4 transition-all"
+                >
+                  View All Schemes <ArrowRight size={14} />
+                </button>
+              )}
             </div>
           </motion.div>
         </section>
@@ -323,21 +342,6 @@ export default function App() {
                       <p className="text-gray-400 text-sm leading-relaxed">
                         We believe in simple, disciplined, and dependable financial growth. At Sumedha Chits Pvt. Ltd., we strive to deliver value-driven schemes with integrity and customer-first service.
                       </p>
-                    </div>
-                  </div>
-                  
-                  <div className="pt-6">
-                    <p className="text-[#C5A059] font-bold text-sm mb-4">Official Documents:</p>
-                    <div className="flex flex-wrap gap-4">
-                      <a href="/CIN_SUMEDHA.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-[#152a4a] text-white px-4 py-2 rounded-sm text-[10px] font-bold uppercase tracking-widest hover:bg-[#1a335a] border border-gray-700 hover:border-[#C5A059] transition-all">
-                        <ShieldCheck size={14} className="text-[#C5A059]"/> CIN
-                      </a>
-                      <a href="/SUMEDHA CHITS PRIVATE LIMITED-GST  Certificate.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-[#152a4a] text-white px-4 py-2 rounded-sm text-[10px] font-bold uppercase tracking-widest hover:bg-[#1a335a] border border-gray-700 hover:border-[#C5A059] transition-all">
-                        <ShieldCheck size={14} className="text-[#C5A059]"/> GST
-                      </a>
-                      <a href="/TAN_88305929732731_signed_SUMEDHA.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-[#152a4a] text-white px-4 py-2 rounded-sm text-[10px] font-bold uppercase tracking-widest hover:bg-[#1a335a] border border-gray-700 hover:border-[#C5A059] transition-all">
-                        <ShieldCheck size={14} className="text-[#C5A059]"/> TAN
-                      </a>
                     </div>
                   </div>
                 </div>
@@ -383,7 +387,7 @@ export default function App() {
           <div className="max-w-7xl mx-auto px-4">
             <div className="text-center mb-16">
               <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#C5A059] mb-4">The Advantage</p>
-              <h2 className="text-3xl font-bold text-[#0A192F]">Why Choose Us?</h2>
+              <h2 className="text-3xl font-bold text-white">Why Choose Us?</h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -413,11 +417,11 @@ export default function App() {
         </section>
 
         {/* Board Messages Section */}
-        <section className="py-24 bg-gray-50">
+        <section className="py-24 bg-[#0A192F] border-t border-gray-800">
           <div className="max-w-7xl mx-auto px-4">
             <div className="text-center mb-16">
               <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#C5A059] mb-4">Our Leaders</p>
-              <h2 className="text-3xl font-bold text-[#0A192F]">Messages from the Board</h2>
+              <h2 className="text-3xl font-bold text-white">Messages from the Board</h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -444,7 +448,7 @@ export default function App() {
         </section>
 
         {/* Commitment Section */}
-        <section className="py-24">
+        <section className="py-24" id="compliance">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -454,36 +458,51 @@ export default function App() {
           >
             <div className="text-center mb-16">
               <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#C5A059] mb-4">Our Commitment</p>
-              <h2 className="text-3xl font-bold text-[#0A192F]">Built on Transparency & Law</h2>
+              <h2 className="text-4xl font-bold text-white">Built on Transparency & Law</h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-              <div className="text-center">
-                <div className="w-16 h-16 rounded-full border border-gray-200 flex items-center justify-center mx-auto mb-6">
-                  <CheckCircle2 className="text-[#C5A059]" size={28} />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-20">
+              <div className="text-center group">
+                <div className="w-20 h-20 rounded-full border border-[#C5A059]/30 group-hover:border-[#C5A059] transition-colors flex items-center justify-center mx-auto mb-8 bg-[#152a4a] shadow-sm">
+                  <CheckCircle2 className="text-[#C5A059]" size={32} />
                 </div>
-                <h3 className="font-bold mb-4">100% Government Regulated</h3>
-                <p className="text-gray-500 text-[10px] leading-relaxed">
+                <h3 className="font-bold mb-4 text-white text-lg">100% Government Regulated</h3>
+                <p className="text-gray-400 text-xs leading-relaxed max-w-sm mx-auto">
                   Registered under the Chit Funds Act, 1982. Every group is launched only after obtaining the mandatory Prior Sanction from the Registrar.
                 </p>
               </div>
-              <div className="text-center">
-                <div className="w-16 h-16 rounded-full border border-gray-200 flex items-center justify-center mx-auto mb-6">
-                  <Smartphone className="text-[#C5A059]" size={28} />
+              <div className="text-center group">
+                <div className="w-20 h-20 rounded-full border border-[#C5A059]/30 group-hover:border-[#C5A059] transition-colors flex items-center justify-center mx-auto mb-8 bg-[#152a4a] shadow-sm">
+                  <Smartphone className="text-[#C5A059]" size={32} />
                 </div>
-                <h3 className="font-bold mb-4">Digital-First Transparency</h3>
-                <p className="text-gray-500 text-[10px] leading-relaxed">
+                <h3 className="font-bold mb-4 text-white text-lg">Digital-First Transparency</h3>
+                <p className="text-gray-400 text-xs leading-relaxed max-w-sm mx-auto">
                   We've replaced manual ledgers with a secure digital portal. Track your dividends, payments, and auction results in real-time.
                 </p>
               </div>
-              <div className="text-center">
-                <div className="w-16 h-16 rounded-full border border-gray-200 flex items-center justify-center mx-auto mb-6">
-                  <Users className="text-[#C5A059]" size={28} />
+              <div className="text-center group">
+                <div className="w-20 h-20 rounded-full border border-[#C5A059]/30 group-hover:border-[#C5A059] transition-colors flex items-center justify-center mx-auto mb-8 bg-[#152a4a] shadow-sm">
+                  <Users className="text-[#C5A059]" size={32} />
                 </div>
-                <h3 className="font-bold mb-4">Expert Management</h3>
-                <p className="text-gray-500 text-[10px] leading-relaxed">
+                <h3 className="font-bold mb-4 text-white text-lg">Expert Management</h3>
+                <p className="text-gray-400 text-xs leading-relaxed max-w-sm mx-auto">
                   Led by industry veterans with a mission to modernize community savings for the next generation of Karnataka's investors.
                 </p>
+              </div>
+            </div>
+
+            <div className="pt-16 border-t border-gray-800 mt-16 text-center">
+              <h3 className="text-white font-bold mb-8 text-xl">Official Compliance Certificates</h3>
+              <div className="flex flex-wrap justify-center gap-6">
+                <a href="/CIN_SUMEDHA.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-[#152a4a] text-white px-8 py-4 rounded-sm text-xs font-bold uppercase tracking-widest border border-gray-700 hover:border-[#C5A059] hover:shadow-lg hover:-translate-y-1 transition-all">
+                  <ShieldCheck size={20} className="text-[#C5A059]" /> CIN Document
+                </a>
+                <a href="/SUMEDHA CHITS PRIVATE LIMITED-GST  Certificate.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-[#152a4a] text-white px-8 py-4 rounded-sm text-xs font-bold uppercase tracking-widest border border-gray-700 hover:border-[#C5A059] hover:shadow-lg hover:-translate-y-1 transition-all">
+                  <ShieldCheck size={20} className="text-[#C5A059]" /> GST Certificate
+                </a>
+                <a href="/TAN_88305929732731_signed_SUMEDHA.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-[#152a4a] text-white px-8 py-4 rounded-sm text-xs font-bold uppercase tracking-widest border border-gray-700 hover:border-[#C5A059] hover:shadow-lg hover:-translate-y-1 transition-all">
+                  <ShieldCheck size={20} className="text-[#C5A059]" /> TAN Document
+                </a>
               </div>
             </div>
           </motion.div>
@@ -520,7 +539,9 @@ export default function App() {
                   <div className="absolute inset-0 bg-[#0A192F] flex flex-col items-center overflow-y-auto hide-scrollbar pb-20">
                      {/* Mock App Header */}
                      <div className="w-full bg-[#152a4a] px-6 pt-12 pb-6 flex flex-col items-center rounded-b-3xl shadow-lg border-b border-[#C5A059]/20 relative z-10">
-                        <Logo className="scale-[0.85] origin-top max-w-full justify-center mb-6" light={true} />
+                        <div className="flex items-center justify-center mb-6 scale-90 w-full bg-white/5 py-4 rounded-xl border border-white/10 group-hover:border-[#C5A059]/30 transition-colors">
+                          <img src="/new logo.png" alt="Sumedha Chits" className="h-10 w-auto object-contain" />
+                        </div>
                         <div className="w-full bg-[#0A192F]/50 rounded-lg p-3 border border-gray-700/50 flex items-center justify-between">
                           <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Total Dividends</span>
                           <span className="text-[#C5A059] font-bold">₹ 12,450</span>
@@ -564,11 +585,11 @@ export default function App() {
         </section>
 
         {/* FAQ Section */}
-        <section className="py-24 bg-gray-50">
+        <section className="py-24 bg-[#0A192F] border-t border-gray-800" id="faq">
           <div className="max-w-7xl mx-auto px-4">
             <div className="text-center mb-16">
               <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#C5A059] mb-4">Help Center</p>
-              <h2 className="text-3xl font-bold text-[#0A192F]">Frequently Asked <span className="text-[#C5A059]">Questions</span></h2>
+              <h2 className="text-3xl font-bold text-white">Frequently Asked <span className="text-[#C5A059]">Questions</span></h2>
             </div>
 
             <div className="max-w-3xl mx-auto">
@@ -599,11 +620,11 @@ export default function App() {
         </section>
 
         {/* Support & Location Section */}
-        <section className="py-24">
+        <section className="py-24 bg-[#0A192F] border-t border-gray-800" id="support">
           <div className="max-w-7xl mx-auto px-4">
             <div className="text-center mb-16">
               <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#C5A059] mb-4">Contact</p>
-              <h2 className="text-3xl font-bold text-[#0A192F]">Support & Location</h2>
+              <h2 className="text-3xl font-bold text-white">Support & Location</h2>
             </div>
 
             <div className="bg-[#0A192F] rounded-sm overflow-hidden grid grid-cols-1 lg:grid-cols-2">
@@ -634,10 +655,10 @@ export default function App() {
                 </div>
                 
                 <a href="https://wa.me/919964556559" target="_blank" rel="noopener noreferrer" className="mt-12 w-full bg-[#25D366] text-white py-3 rounded-sm flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest hover:bg-[#1ebd57] transition-colors">
-                  <MessageCircle size={18} /> WhatsApp Support
+                  <WhatsAppIcon size={18} /> WhatsApp Support
                 </a>
               </div>
-              <div className="bg-white relative min-h-[400px]">
+              <div className="bg-[#152a4a] relative min-h-[400px]">
                 <iframe 
                   src="https://maps.google.com/maps?width=100%25&amp;height=100%25&amp;hl=en&amp;q=Sumedha+Chits+Private+Limited,+Bengaluru&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=B&amp;output=embed" 
                   width="100%" 
@@ -656,18 +677,16 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-100 pt-20 pb-10">
+      <footer className="bg-[#0A192F] border-t border-gray-800 pt-20 pb-10">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-col items-center text-center mb-16">
-            <Logo className="mb-12" />
+            <Logo light={true} className="mb-12" />
             <nav className="flex flex-wrap justify-center gap-x-8 gap-y-4 mb-8">
               <NavLink href="#">Home</NavLink>
-              <NavLink href="#">Schemes</NavLink>
-              <NavLink href="#">Documents</NavLink>
-              <NavLink href="#">Compliance</NavLink>
-              <NavLink href="#">Investor Corner</NavLink>
-              <NavLink href="#">FAQ</NavLink>
-              <NavLink href="#">Support</NavLink>
+              <NavLink href="#schemes">Schemes</NavLink>
+              <NavLink href="#compliance">Compliance</NavLink>
+              <NavLink href="#faq">FAQ</NavLink>
+              <NavLink href="#support">Support</NavLink>
             </nav>
             <div className="flex gap-8 text-[10px] font-bold uppercase tracking-widest text-gray-400">
               <a href="#" className="hover:text-[#C5A059]">Privacy Policy</a>
@@ -675,12 +694,12 @@ export default function App() {
             </div>
           </div>
           
-          <div className="text-center pt-10 border-t border-gray-50">
+          <div className="text-center pt-10 border-t border-gray-800">
             <p className="text-[9px] text-gray-400 uppercase tracking-widest mb-2">
               © 2026 SUMEDHA CHITS PRIVATE LIMITED. ALL RIGHTS RESERVED.
             </p>
             <p className="text-[9px] text-gray-400 uppercase tracking-widest">
-              CIN: U65990KA2021PTC144520 | Regd. Office: Bengaluru, India
+              CIN: U64190KA2026PTC217660 | Regd. Office: Bengaluru, India
             </p>
           </div>
         </div>
@@ -692,7 +711,7 @@ export default function App() {
         target="_blank" rel="noopener noreferrer"
         className="fixed bottom-8 right-8 w-14 h-14 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform z-[100]"
       >
-        <MessageCircle size={28} />
+        <WhatsAppIcon size={28} />
       </a>
     </div>
   );
