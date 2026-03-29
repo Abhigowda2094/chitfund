@@ -111,9 +111,14 @@ const SchemeCard = ({
     <div className="bg-[#152a4a] text-white w-full py-2 px-4 rounded-sm text-[10px] font-medium mb-8">
       Earn up to ₹ {dividend} Dividend
     </div>
-    <button className={`w-full py-3 text-[10px] font-bold uppercase tracking-widest transition-colors ${isPopular ? 'bg-[#C5A059] text-[#0A192F] hover:bg-[#0A192F] hover:text-white' : 'border border-[#0A192F] text-[#0A192F] hover:bg-[#0A192F] hover:text-white'}`}>
-      View Details
-    </button>
+    <a 
+      href={`https://wa.me/919964556559?text=I'm interested in joining the ${amount} chit scheme.`} 
+      target="_blank" 
+      rel="noopener noreferrer"
+      className={`w-full py-3 text-center text-[10px] font-bold uppercase tracking-widest transition-colors ${isPopular ? 'bg-[#C5A059] text-[#0A192F] hover:bg-[#0A192F] hover:text-white' : 'border border-[#0A192F] text-[#0A192F] hover:bg-[#0A192F] hover:text-white'}`}
+    >
+      Enquire on WhatsApp
+    </a>
   </div>
 );
 
@@ -432,12 +437,9 @@ export default function App() {
 
             <div className="flex justify-center h-10">
               {!showAllSchemes && SCHEMES.length > 9 && (
-                <button 
-                  onClick={() => setShowAllSchemes(true)}
-                  className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-[#C5A059] hover:text-[#0A192F] transition-all"
-                >
-                  View All Schemes <ArrowRight size={14} />
-                </button>
+                <a href="https://wa.me/919964556559" target="_blank" rel="noopener noreferrer" className="w-full border border-gray-600 py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-[#0A192F] transition-colors text-center block">
+      Details
+    </a>
               )}
             </div>
           </motion.div>
