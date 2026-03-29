@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   ChevronDown, 
@@ -157,6 +157,37 @@ const WhatsAppIcon = ({ size = 24 }: { size?: number }) => (
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showAllSchemes, setShowAllSchemes] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+
+  // Smooth scroll functionality
+  useEffect(() => {
+    const handleSmoothScroll = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.tagName === 'A' && target.getAttribute('href')?.startsWith('#')) {
+        e.preventDefault();
+        const href = target.getAttribute('href');
+        if (href && href !== '#') {
+          const element = document.querySelector(href);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      }
+    };
+
+    // Track scroll position for parallax effects
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    document.addEventListener('click', handleSmoothScroll);
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      document.removeEventListener('click', handleSmoothScroll);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const SCHEMES = [
     { amount: "2,00,000", duration: "20", dividend: "2,500", subscription: "10,000" },
@@ -172,11 +203,11 @@ export default function App() {
   const displayedSchemes = showAllSchemes ? SCHEMES : SCHEMES.slice(0, 4);
 
   return (
-    <div className="min-h-screen bg-[#0A192F] font-sans text-white selection:bg-[#C5A059] selection:text-white">
+    <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-[#C5A059] selection:text-white">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-[#0A192F]/95 backdrop-blur-sm border-b border-gray-800">
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
-          <Logo light={true} />
+          <Logo />
           
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-8">
@@ -200,7 +231,7 @@ export default function App() {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="lg:hidden absolute top-20 left-0 w-full bg-[#0A192F] border-b border-gray-800 p-6 flex flex-col gap-4"
+              className="lg:hidden absolute top-20 left-0 w-full bg-white border-b border-gray-100 p-6 flex flex-col gap-4"
             >
               <NavLink href="#">Home</NavLink>
               <NavLink href="#schemes">Schemes</NavLink>
@@ -215,53 +246,131 @@ export default function App() {
       <main>
         {/* Hero Section */}
         <section className="relative pt-20 pb-32 overflow-hidden">
-          <div className="max-w-7xl mx-auto px-4 text-center">
+          {/* Parallax Background Elements */}
+          <div className="absolute inset-0 overflow-hidden">
+            <motion.div 
+              style={{ y: scrollY * 0.5 }}
+              className="absolute top-20 left-10 w-32 h-32 bg-[#C5A059]/10 rounded-full blur-3xl"
+            />
+            <motion.div 
+              style={{ y: scrollY * 0.3 }}
+              className="absolute top-40 right-20 w-48 h-48 bg-[#4169E1]/10 rounded-full blur-3xl"
+            />
+            <motion.div 
+              style={{ y: scrollY * 0.4 }}
+              className="absolute bottom-10 left-1/3 w-40 h-40 bg-[#C5A059]/5 rounded-full blur-3xl"
+            />
+          </div>
+          
+          <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.6, type: "spring" }}
               className="flex justify-center mb-8"
             >
-              <div className="relative h-28 flex flex-col items-center justify-center pointer-events-none">
-                <img src="/new logo.png" alt="Sumedha Chits Logo" className="w-auto h-full object-contain drop-shadow-xl hover:scale-105 transition-transform" />
-              </div>
+              <motion.div 
+                whileHover={{ scale: 1.05, rotate: 1 }}
+                transition={{ type: "spring", stiffness: 300 }}
+                className="relative h-28 flex flex-col items-center justify-center pointer-events-none"
+              >
+                <img src="/new logo.png" alt="Sumedha Chits Logo" className="w-auto h-full object-contain drop-shadow-xl" />
+              </motion.div>
             </motion.div>
             
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
+              transition={{ delay: 0.2, duration: 0.8 }}
             >
-              <h2 className="text-[16px] md:text-[20px] font-extrabold uppercase tracking-widest text-[#4169E1] mb-4 drop-shadow-sm">
+              <motion.h2 
+                className="text-[16px] md:text-[20px] font-extrabold uppercase tracking-widest text-[#4169E1] mb-4 drop-shadow-sm"
+                whileHover={{ scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 400 }}
+              >
                 SUMEDHA CHITS PVT LIMITED
-              </h2>
-              <p className="text-[10px] text-gray-400 mb-8 tracking-widest">CIN: U64190KA2026PTC217660</p>
+              </motion.h2>
+              <motion.p 
+                className="text-[10px] text-gray-400 mb-8 tracking-widest"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+              >
+                CIN: U64190KA2026PTC217660
+              </motion.p>
               
-              <p className="text-[11px] font-medium text-[#C5A059] mb-4 uppercase tracking-widest">
+              <motion.p 
+                className="text-[11px] font-medium text-[#C5A059] mb-4 uppercase tracking-widest"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6 }}
+              >
                 Karnataka's Regulated Digital Chit Fund
-              </p>
+              </motion.p>
               
-              <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
+              <motion.h1 
+                className="text-5xl md:text-6xl font-bold text-[#0A192F] mb-6 leading-tight"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8, duration: 0.8 }}
+              >
                 Secure Growth for <br />
-                <span className="text-[#C5A059]">Secure Digital Investing</span>
-              </h1>
+                <motion.span 
+                  className="text-[#C5A059] inline-block"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  Secure Digital Investing
+                </motion.span>
+              </motion.h1>
               
-              <p className="max-w-2xl mx-auto text-gray-500 text-sm leading-relaxed mb-12">
+              <motion.p 
+                className="max-w-2xl mx-auto text-gray-500 text-sm leading-relaxed mb-12"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1 }}
+              >
                 At Sumedha Chits Private Ltd, we are committed to providing reliable, transparent, <br className="hidden md:block" />
                 and customer-friendly chit fund services.
-              </p>
+              </motion.p>
               
-              <div className="flex flex-wrap justify-center gap-4 mb-16">
-                <a href="#schemes">
+              <motion.div 
+                className="flex flex-wrap justify-center gap-4 mb-16"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.2 }}
+              >
+                <motion.a 
+                  href="#schemes"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
                   <Button variant="primary" className="w-full h-full">View Schemes</Button>
-                </a>
-                <a href="https://play.google.com/store/apps/details?id=com.sreeyainfotech.chitcaresasmember" target="_blank" rel="noopener noreferrer">
+                </motion.a>
+                <motion.a 
+                  href="https://play.google.com/store/apps/details?id=com.sreeyainfotech.chitcaresasmember" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
                   <Button variant="secondary" className="w-full h-full">Download App</Button>
-                </a>
-              </div>
+                </motion.a>
+              </motion.div>
 
-              <div className="flex flex-wrap justify-center gap-8">
-                <div className="flex items-center gap-3 text-left">
+              <motion.div 
+                className="flex flex-wrap justify-center gap-8"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.4 }}
+              >
+                <motion.div 
+                  className="flex items-center gap-3 text-left"
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
                   <div className="p-2 rounded-full border border-gray-200">
                     <ShieldCheck className="text-[#C5A059]" size={20} />
                   </div>
@@ -269,8 +378,12 @@ export default function App() {
                     <p className="text-[9px] font-bold uppercase tracking-widest text-[#C5A059]">Regulated By</p>
                     <p className="text-[10px] font-bold uppercase tracking-widest text-white">Govt. of Karnataka</p>
                   </div>
-                </div>
-                <div className="flex items-center gap-3 text-left">
+                </motion.div>
+                <motion.div 
+                  className="flex items-center gap-3 text-left"
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
                   <div className="p-2 rounded-full border border-gray-700">
                     <CheckCircle2 className="text-[#C5A059]" size={20} />
                   </div>
@@ -278,8 +391,8 @@ export default function App() {
                     <p className="text-[9px] font-bold uppercase tracking-widest text-[#C5A059]">Registered Under</p>
                     <p className="text-[10px] font-bold uppercase tracking-widest text-white">Chit Funds Act 1982</p>
                   </div>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             </motion.div>
           </div>
         </section>
@@ -300,7 +413,16 @@ export default function App() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
               {displayedSchemes.map((scheme, idx) => (
-                <SchemeCard key={idx} title="Chit Scheme" {...scheme} />
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ delay: idx * 0.1, duration: 0.6 }}
+                  whileHover={{ y: -5 }}
+                >
+                  <SchemeCard title="Chit Scheme" {...scheme} />
+                </motion.div>
               ))}
             </div>
 
@@ -326,56 +448,60 @@ export default function App() {
             transition={{ duration: 0.6 }}
             className="max-w-7xl mx-auto px-4"
           >
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-              <div className="space-y-8">
-                <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#C5A059] mb-6">Director's Vision & Mission</p>
-                  <div className="space-y-6">
-                    <div>
-                      <p className="text-[#C5A059] font-bold text-sm mb-2">Lavanya Madam:</p>
-                      <p className="text-gray-400 text-sm leading-relaxed">
-                        At Sumedha Chits Pvt. Ltd., we are committed to providing secure, transparent, and reliable chit solutions. Our focus is on building trust and helping customers achieve their financial goals with confidence.
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-[#C5A059] font-bold text-sm mb-2">Mahesh Sir:</p>
-                      <p className="text-gray-400 text-sm leading-relaxed">
-                        We believe in simple, disciplined, and dependable financial growth. At Sumedha Chits Pvt. Ltd., we strive to deliver value-driven schemes with integrity and customer-first service.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8 border-t border-gray-800">
-                  <div>
-                    <p className="text-[#C5A059] text-[10px] font-bold uppercase tracking-widest mb-1">Transparency:</p>
-                    <p className="text-gray-400 text-[10px]">Real-time digital auctions.</p>
-                  </div>
-                  <div>
-                    <p className="text-[#C5A059] text-[10px] font-bold uppercase tracking-widest mb-1">Security:</p>
-                    <p className="text-gray-400 text-[10px]">Regulated by the Chit Funds Act, 1982.</p>
-                  </div>
-                  <div>
-                    <p className="text-[#C5A059] text-[10px] font-bold uppercase tracking-widest mb-1">Local:</p>
-                    <p className="text-gray-400 text-[10px]">Proudly serving the Bangalore community.</p>
-                  </div>
-                </div>
+          <div className="text-center space-y-16">
+              {/* Vision and Mission Boxes - Centered */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                {[
+                  {
+                    icon: Eye,
+                    title: "Our Vision",
+                    description: "To become a trusted and leading chit fund company that empowers individuals and families to achieve financial stability and growth through transparent and reliable financial solutions."
+                  },
+                  {
+                    icon: Zap,
+                    title: "Our Mission",
+                    description: "To deliver efficient customer support and timely financial assistance to our members."
+                  }
+                ].map((item, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ delay: idx * 0.2, duration: 0.6 }}
+                    className="p-8 border border-gray-800 rounded-sm hover:border-[#C5A059] transition-colors"
+                  >
+                    <item.icon className="text-[#C5A059] mb-6" size={32} />
+                    <h3 className="text-lg font-bold mb-4">{item.title}</h3>
+                    <p className="text-gray-400 text-xs leading-relaxed">
+                      {item.description}
+                    </p>
+                  </motion.div>
+                ))}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="p-8 border border-gray-800 rounded-sm hover:border-[#C5A059] transition-colors">
-                  <Eye className="text-[#C5A059] mb-6" size={32} />
-                  <h3 className="text-lg font-bold mb-4">Our Vision</h3>
-                  <p className="text-gray-400 text-xs leading-relaxed">
-                    To become a trusted and leading chit fund company that empowers individuals and families to achieve financial stability and growth through transparent and reliable financial solutions.
-                  </p>
+              {/* Transparency, Security, Local Features - Below */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+                <div className="text-center">
+                  <div className="w-16 h-16 rounded-full border border-[#C5A059]/30 mx-auto mb-4 bg-[#152a4a] flex items-center justify-center">
+                    <Eye className="text-[#C5A059]" size={24} />
+                  </div>
+                  <p className="text-[#C5A059] text-[10px] font-bold uppercase tracking-widest mb-1">Transparency:</p>
+                  <p className="text-gray-400 text-[10px]">Real-time digital auctions.</p>
                 </div>
-                <div className="p-8 border border-gray-800 rounded-sm hover:border-[#C5A059] transition-colors">
-                  <Zap className="text-[#C5A059] mb-6" size={32} />
-                  <h3 className="text-lg font-bold mb-4">Our Mission</h3>
-                  <p className="text-gray-400 text-xs leading-relaxed">
-                    To deliver efficient customer support and timely financial assistance to our members.
-                  </p>
+                <div className="text-center">
+                  <div className="w-16 h-16 rounded-full border border-[#C5A059]/30 mx-auto mb-4 bg-[#152a4a] flex items-center justify-center">
+                    <ShieldCheck className="text-[#C5A059]" size={24} />
+                  </div>
+                  <p className="text-[#C5A059] text-[10px] font-bold uppercase tracking-widest mb-1">Security:</p>
+                  <p className="text-gray-400 text-[10px]">Regulated by the Chit Funds Act, 1982.</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-16 h-16 rounded-full border border-[#C5A059]/30 mx-auto mb-4 bg-[#152a4a] flex items-center justify-center">
+                    <MapPin className="text-[#C5A059]" size={24} />
+                  </div>
+                  <p className="text-[#C5A059] text-[10px] font-bold uppercase tracking-widest mb-1">Local:</p>
+                  <p className="text-gray-400 text-[10px]">Proudly serving the Bangalore community.</p>
                 </div>
               </div>
             </div>
@@ -391,27 +517,45 @@ export default function App() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-[#0A192F] p-12 text-center rounded-sm group hover:-translate-y-2 transition-transform">
-                <TrendingUp className="text-[#C5A059] mx-auto mb-6 group-hover:scale-110 transition-transform" size={32} />
-                <h3 className="text-white font-bold mb-4">Higher Yields</h3>
-                <p className="text-gray-400 text-xs leading-relaxed">
-                  Competitive returns compared to traditional banking instruments.
-                </p>
-              </div>
-              <div className="bg-[#0A192F] p-12 text-center rounded-sm group hover:-translate-y-2 transition-transform">
-                <ShieldCheck className="text-[#C5A059] mx-auto mb-6 group-hover:scale-110 transition-transform" size={32} />
-                <h3 className="text-white font-bold mb-4">Instant Liquidity</h3>
-                <p className="text-gray-400 text-xs leading-relaxed">
-                  Access your funds quickly during emergency needs via auctions.
-                </p>
-              </div>
-              <div className="bg-[#0A192F] p-12 text-center rounded-sm group hover:-translate-y-2 transition-transform">
-                <Smartphone className="text-[#C5A059] mx-auto mb-6 group-hover:scale-110 transition-transform" size={32} />
-                <h3 className="text-white font-bold mb-4">Paperless UX</h3>
-                <p className="text-gray-400 text-xs leading-relaxed">
-                  Manage your installments and dividends entirely through our app.
-                </p>
-              </div>
+              {[
+                {
+                  icon: TrendingUp,
+                  title: "Higher Yields",
+                  description: "Competitive returns compared to traditional banking instruments."
+                },
+                {
+                  icon: ShieldCheck,
+                  title: "Instant Liquidity",
+                  description: "Access your funds quickly during emergency needs via auctions."
+                },
+                {
+                  icon: Smartphone,
+                  title: "Paperless UX",
+                  description: "Manage your installments and dividends entirely through our app."
+                }
+              ].map((feature, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ delay: idx * 0.2, duration: 0.6 }}
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  className="bg-[#0A192F] p-12 text-center rounded-sm group"
+                >
+                  <motion.div
+                    whileHover={{ scale: 1.2, rotate: 5 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                    className="text-[#C5A059] mx-auto mb-6"
+                  >
+                    <feature.icon size={32} />
+                  </motion.div>
+                  <h3 className="text-white font-bold mb-4">{feature.title}</h3>
+                  <p className="text-gray-400 text-xs leading-relaxed">
+                    {feature.description}
+                  </p>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
@@ -424,11 +568,10 @@ export default function App() {
               <h2 className="text-3xl font-bold text-white">Messages from the Board</h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
               {[
-                { name: "Manjunath K V", role: "Director", msg: "Technology is the bridge that brings the age-old trust of chit funds into the digital era. We are committed to absolute financial integrity." },
-                { name: "Santosh G K", role: "Director", msg: "Your hard-earned savings deserve the highest level of legal protection. We ensure 100% compliance with every state regulation." },
-                { name: "Rajesh H R", role: "Director", msg: "Empowering the community through shared savings is our mission. Akshita Shri is built to help every member grow together." }
+                { name: "Lavanya Madam", role: "Director", msg: "At Sumedha Chits Pvt. Ltd., we are committed to providing secure, transparent, and reliable chit solutions. Our focus is on building trust and helping customers achieve their financial goals with confidence." },
+                { name: "Mahesh Sir", role: "Director", msg: "We believe in simple, disciplined, and dependable financial growth. At Sumedha Chits Pvt. Ltd., we strive to deliver value-driven schemes with integrity and customer-first service." }
               ].map((leader, i) => (
                 <div key={i} className="bg-[#0A192F] p-8 rounded-sm text-white">
                   <div className="flex items-center gap-4 mb-6">
@@ -518,10 +661,20 @@ export default function App() {
                 <p className="text-gray-400 text-sm leading-relaxed mb-12 max-w-md">
                   Bid in real-time, pay your installments, and track your dividends with our secure Android application.
                 </p>
-                <a href="https://play.google.com/store/apps/details?id=com.sreeyainfotech.chitcaresasmember" target="_blank" rel="noopener noreferrer" className="inline-flex bg-black border border-gray-700 px-6 py-3 rounded-lg flex items-center gap-3 hover:bg-gray-900 transition-colors">
+                <a href="https://play.google.com/store/apps/details?id=com.sreeyainfotech.chitcaresasmember" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 bg-black px-8 py-4 rounded-xl hover:bg-gray-900 transition-all hover:scale-105 shadow-xl">
+                  <motion.div
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                    className="text-white"
+                  >
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M17.5 9.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5.67 1.5 1.5 1.5 1.5-.67 1.5-1.5zm-5 0c0-.83-.67-1.5-1.5-1.5S9.5 8.67 9.5 9.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5zm5 3c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5.67 1.5 1.5 1.5 1.5-.67 1.5-1.5zm-5 0c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5.67 1.5 1.5 1.5 1.5-.67 1.5-1.5z"/>
+                      <path d="M3 3h18v18H3V3zm16 16V5H5v14h14z"/>
+                    </svg>
+                  </motion.div>
                   <div className="text-left">
-                    <p className="text-[10px] uppercase font-bold text-gray-400">Get it on</p>
-                    <p className="text-lg font-bold">Google Play</p>
+                    <p className="text-[12px] uppercase font-bold text-gray-400">Get it on</p>
+                    <p className="text-xl font-bold">Google Play</p>
                   </div>
                 </a>
               </div>
@@ -539,8 +692,8 @@ export default function App() {
                   <div className="absolute inset-0 bg-[#0A192F] flex flex-col items-center overflow-y-auto hide-scrollbar pb-20">
                      {/* Mock App Header */}
                      <div className="w-full bg-[#152a4a] px-6 pt-12 pb-6 flex flex-col items-center rounded-b-3xl shadow-lg border-b border-[#C5A059]/20 relative z-10">
-                        <div className="flex items-center justify-center mb-6 scale-90 w-full bg-white/5 py-4 rounded-xl border border-white/10 group-hover:border-[#C5A059]/30 transition-colors">
-                          <img src="/new logo.png" alt="Sumedha Chits" className="h-10 w-auto object-contain" />
+                        <div className="flex items-center justify-center mb-6 scale-110 w-full">
+                          <img src="/new logo.png" alt="Sumedha Chits" className="h-16 w-auto object-contain" />
                         </div>
                         <div className="w-full bg-[#0A192F]/50 rounded-lg p-3 border border-gray-700/50 flex items-center justify-between">
                           <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Total Dividends</span>
@@ -689,8 +842,8 @@ export default function App() {
               <NavLink href="#support">Support</NavLink>
             </nav>
             <div className="flex gap-8 text-[10px] font-bold uppercase tracking-widest text-gray-400">
-              <a href="#" className="hover:text-[#C5A059]">Privacy Policy</a>
-              <a href="#" className="hover:text-[#C5A059]">Terms & Conditions</a>
+              <a href="/privacy" className="hover:text-[#C5A059]">Privacy Policy</a>
+              <a href="/terms" className="hover:text-[#C5A059]">Terms & Conditions</a>
             </div>
           </div>
           
@@ -709,7 +862,7 @@ export default function App() {
       <a 
         href="https://wa.me/919964556559" 
         target="_blank" rel="noopener noreferrer"
-        className="fixed bottom-8 right-8 w-14 h-14 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform z-[100]"
+        className="fixed bottom-8 right-8 w-14 h-14 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform z-100"
       >
         <WhatsAppIcon size={28} />
       </a>
