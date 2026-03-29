@@ -36,10 +36,10 @@ const Logo = ({ className, light = false }: { className?: string; light?: boolea
     <img src="/new logo.png" alt="Sumedha Chits Logo" className="h-28 w-auto object-contain drop-shadow-sm shrink-0" />
     <div className="flex flex-col leading-none">
       <span className={cn("font-bold tracking-tight flex items-baseline", light ? "text-white" : "text-[#0A192F]")}>
-        <span className="text-[#4169e1] text-[2.5rem] leading-none">U</span>
+        <span className={cn(light ? "text-white" : "text-[#0A192F]", "text-[2.5rem] leading-none")}>U</span>
         <span className="text-2xl">MEDHA</span>
       </span>
-      <span className={cn("text-xs font-bold tracking-[0.2em] mt-1", light ? "text-gray-400" : "text-[#0A192F]")}>CHITS PVT LTD</span>
+      <span className={cn("text-xs font-bold tracking-[0.2em] mt-1", light ? "text-gray-300" : "text-[#0A192F]")}>CHITS PVT LTD</span>
     </div>
   </div>
 );
@@ -95,24 +95,24 @@ const SchemeCard = ({
   subscription: string;
   isPopular?: boolean 
 }) => (
-  <div className="relative bg-[#0A192F] p-8 rounded-sm text-white flex flex-col items-center text-center group hover:scale-[1.02] transition-transform duration-300">
+  <div className={`relative p-8 rounded-sm text-white flex flex-col items-center text-center group transition-all duration-500 hover:z-20 ${isPopular ? 'bg-[#0A192F] border-2 border-[#C5A059] md:scale-110 z-10 shadow-[0_0_40px_rgba(197,160,89,0.3)] ring-2 ring-[#C5A059]/20' : 'bg-[#0A192F] border-2 border-gray-700'}`}>
     {isPopular && (
-      <div className="absolute -top-2 -right-2 bg-[#C5A059] text-white text-[9px] font-bold px-3 py-1 rounded-sm uppercase tracking-widest">
-        Popular
+      <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#C5A059] via-[#E5BF77] to-[#C5A059] text-[#0A192F] text-[9px] font-black px-4 py-1.5 rounded-full uppercase tracking-[0.2em] shadow-lg whitespace-nowrap border border-[#C5A059]">
+        Most Popular
       </div>
     )}
     <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-4">{title}</h3>
-    <div className="text-2xl font-bold mb-3">₹ {amount}</div>
+    <div className={`text-2xl font-bold mb-3 ${isPopular ? 'text-[#C5A059]' : 'text-white'}`}>₹ {amount}</div>
     <div className="text-[11px] text-gray-400 mb-6 flex justify-center gap-3">
       <span>Duration: {duration} M</span>
       <span className="text-gray-600">|</span>
       <span>Sub: ₹ {subscription}</span>
     </div>
-    <div className="bg-[#152a4a] w-full py-2 px-4 rounded-sm text-[10px] font-medium text-green-400 mb-8">
+    <div className={`${isPopular ? 'bg-[#C5A059]/10 text-[#C5A059]' : 'bg-[#152a4a] text-green-400'} w-full py-2 px-4 rounded-sm text-[10px] font-medium mb-8`}>
       Earn up to ₹ {dividend} Dividend
     </div>
-    <button className="w-full border border-gray-600 py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-[#0A192F] transition-colors">
-      Details
+    <button className={`w-full py-3 text-[10px] font-bold uppercase tracking-widest transition-colors ${isPopular ? 'bg-[#C5A059] text-[#0A192F] hover:bg-white' : 'border border-gray-600 hover:bg-white hover:text-[#0A192F]'}`}>
+      View Details
     </button>
   </div>
 );
@@ -120,12 +120,12 @@ const SchemeCard = ({
 const FAQItem = ({ question, answer }: { question: string; answer: string }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="border-b border-gray-800 bg-[#0A192F] mb-2">
+    <div className="border-b border-gray-100 bg-white mb-2 shadow-sm rounded-sm">
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between p-5 text-left text-white hover:bg-[#152a4a] transition-colors"
+        className="w-full flex items-center justify-between p-6 text-left text-[#0A192F] hover:bg-gray-50 transition-colors"
       >
-        <span className="text-sm font-medium">{question}</span>
+        <span className="text-sm font-bold tracking-tight">{question}</span>
         {isOpen ? <X size={16} /> : <ChevronDown size={16} />}
       </button>
       <AnimatePresence>
@@ -136,7 +136,7 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden"
           >
-            <div className="p-5 text-gray-400 text-sm leading-relaxed">
+            <div className="px-6 pb-6 text-[#0A192F]/80 text-sm leading-relaxed">
               {answer}
             </div>
           </motion.div>
@@ -193,25 +193,27 @@ export default function App() {
     { amount: "2,00,000", duration: "20", dividend: "2,500", subscription: "10,000" },
     { amount: "3,00,000", duration: "25", dividend: "3,000", subscription: "12,000" },
     { amount: "5,00,000", duration: "20", dividend: "5,000", subscription: "25,000" },
-    { amount: "5,00,000", duration: "25", dividend: "5,000", subscription: "20,000", isPopular: true },
+    { amount: "5,00,000", duration: "25", dividend: "5,000", subscription: "20,000" },
+    { amount: "25,00,000", duration: "40", dividend: "21,875", subscription: "62,500", isPopular: true },
     { amount: "5,00,000", duration: "40", dividend: "4,375", subscription: "12,500" },
     { amount: "10,00,000", duration: "30", dividend: "8,333", subscription: "33,333" },
     { amount: "10,00,000", duration: "40", dividend: "8,750", subscription: "25,000" },
-    { amount: "25,00,000", duration: "40", dividend: "21,875", subscription: "62,500", isPopular: true }
+    { amount: "1,50,000", duration: "50", dividend: "2,000", subscription: "3,000" }
   ];
 
-  const displayedSchemes = showAllSchemes ? SCHEMES : SCHEMES.slice(0, 4);
+  const displayedSchemes = showAllSchemes ? SCHEMES : SCHEMES.slice(0, 9);
+  const homeUrl = "/";
 
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-[#C5A059] selection:text-white">
+    <div className="min-h-screen bg-white font-sans text-[#0A192F] selection:bg-[#C5A059] selection:text-white">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 h-32 flex items-center justify-between">
           <Logo />
           
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-8">
-            <NavLink href="#">Home</NavLink>
+            <NavLink href={homeUrl}>Home</NavLink>
             <NavLink href="#schemes">Schemes</NavLink>
             <NavLink href="#compliance">Compliance</NavLink>
             <NavLink href="#faq">FAQ</NavLink>
@@ -233,7 +235,7 @@ export default function App() {
               exit={{ opacity: 0, y: -20 }}
               className="lg:hidden absolute top-20 left-0 w-full bg-white border-b border-gray-100 p-6 flex flex-col gap-4"
             >
-              <NavLink href="#">Home</NavLink>
+              <NavLink href={homeUrl}>Home</NavLink>
               <NavLink href="#schemes">Schemes</NavLink>
               <NavLink href="#compliance">Compliance</NavLink>
               <NavLink href="#faq">FAQ</NavLink>
@@ -254,7 +256,7 @@ export default function App() {
             />
             <motion.div 
               style={{ y: scrollY * 0.3 }}
-              className="absolute top-40 right-20 w-48 h-48 bg-[#4169E1]/10 rounded-full blur-3xl"
+              className="absolute top-40 right-20 w-48 h-48 bg-[#0A192F]/10 rounded-full blur-3xl"
             />
             <motion.div 
               style={{ y: scrollY * 0.4 }}
@@ -284,14 +286,14 @@ export default function App() {
               transition={{ delay: 0.2, duration: 0.8 }}
             >
               <motion.h2 
-                className="text-[16px] md:text-[20px] font-extrabold uppercase tracking-widest text-[#4169E1] mb-4 drop-shadow-sm"
+                className="text-[14px] md:text-[18px] font-black uppercase tracking-[0.4em] text-[#0A192F] mb-6 block"
                 whileHover={{ scale: 1.02 }}
                 transition={{ type: "spring", stiffness: 400 }}
               >
                 SUMEDHA CHITS PVT LIMITED
               </motion.h2>
               <motion.p 
-                className="text-[10px] text-gray-400 mb-8 tracking-widest"
+                className="text-[10px] text-black font-bold tracking-widest mb-8"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
@@ -325,7 +327,7 @@ export default function App() {
               </motion.h1>
               
               <motion.p 
-                className="max-w-2xl mx-auto text-gray-500 text-sm leading-relaxed mb-12"
+                className="max-w-2xl mx-auto text-[#0A192F] text-sm leading-relaxed mb-12"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1 }}
@@ -371,12 +373,12 @@ export default function App() {
                   whileHover={{ scale: 1.02 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
-                  <div className="p-2 rounded-full border border-gray-200">
+                  <div className="p-3 rounded-full border-2 border-gray-700">
                     <ShieldCheck className="text-[#C5A059]" size={20} />
                   </div>
                   <div>
                     <p className="text-[9px] font-bold uppercase tracking-widest text-[#C5A059]">Regulated By</p>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-white">Govt. of Karnataka</p>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-[#0A192F]">Govt. of Karnataka</p>
                   </div>
                 </motion.div>
                 <motion.div 
@@ -384,12 +386,12 @@ export default function App() {
                   whileHover={{ scale: 1.02 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
-                  <div className="p-2 rounded-full border border-gray-700">
+                  <div className="p-3 rounded-full border-2 border-gray-700">
                     <CheckCircle2 className="text-[#C5A059]" size={20} />
                   </div>
                   <div>
                     <p className="text-[9px] font-bold uppercase tracking-widest text-[#C5A059]">Registered Under</p>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-white">Chit Funds Act 1982</p>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-[#0A192F]">Chit Funds Act 1982</p>
                   </div>
                 </motion.div>
               </motion.div>
@@ -411,15 +413,14 @@ export default function App() {
               <h2 className="text-3xl font-bold text-white">Our Popular Schemes</h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16 px-4">
               {displayedSchemes.map((scheme, idx) => (
                 <motion.div
                   key={idx}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true, margin: "-50px" }}
-                  transition={{ delay: idx * 0.1, duration: 0.6 }}
-                  whileHover={{ y: -5 }}
+                  transition={{ delay: idx * 0.05, duration: 0.5 }}
                 >
                   <SchemeCard title="Chit Scheme" {...scheme} />
                 </motion.div>
@@ -427,7 +428,7 @@ export default function App() {
             </div>
 
             <div className="flex justify-center h-10">
-              {!showAllSchemes && (
+              {!showAllSchemes && SCHEMES.length > 9 && (
                 <button 
                   onClick={() => setShowAllSchemes(true)}
                   className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-[#C5A059] hover:gap-4 transition-all"
@@ -513,10 +514,10 @@ export default function App() {
           <div className="max-w-7xl mx-auto px-4">
             <div className="text-center mb-16">
               <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#C5A059] mb-4">The Advantage</p>
-              <h2 className="text-3xl font-bold text-white">Why Choose Us?</h2>
+              <h2 className="text-3xl font-bold text-[#0A192F]">Why Choose Us?</h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
               {[
                 {
                   icon: TrendingUp,
@@ -540,18 +541,16 @@ export default function App() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{ delay: idx * 0.2, duration: 0.6 }}
-                  whileHover={{ y: -8, scale: 1.02 }}
-                  className="bg-[#0A192F] p-12 text-center rounded-sm group"
+                  className="text-center group"
                 >
                   <motion.div
-                    whileHover={{ scale: 1.2, rotate: 5 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                    className="text-[#C5A059] mx-auto mb-6"
+                    whileHover={{ scale: 1.1 }}
+                    className="w-20 h-20 rounded-full border border-gray-100 mx-auto mb-8 flex items-center justify-center transition-colors group-hover:border-[#C5A059]/30"
                   >
-                    <feature.icon size={32} />
+                    <feature.icon className="text-[#C5A059]" size={36} />
                   </motion.div>
-                  <h3 className="text-white font-bold mb-4">{feature.title}</h3>
-                  <p className="text-gray-400 text-xs leading-relaxed">
+                  <h3 className="text-[#0A192F] font-bold text-lg mb-4">{feature.title}</h3>
+                  <p className="text-[#0A192F] font-medium text-sm leading-relaxed">
                     {feature.description}
                   </p>
                 </motion.div>
@@ -591,7 +590,7 @@ export default function App() {
         </section>
 
         {/* Commitment Section */}
-        <section className="py-24" id="compliance">
+        <section className="py-32 bg-white" id="compliance">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -599,51 +598,56 @@ export default function App() {
             transition={{ duration: 0.6 }}
             className="max-w-7xl mx-auto px-4"
           >
-            <div className="text-center mb-16">
-              <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#C5A059] mb-4">Our Commitment</p>
-              <h2 className="text-4xl font-bold text-white">Built on Transparency & Law</h2>
+            <div className="text-center mb-20">
+              <p className="text-[11px] font-black uppercase tracking-[0.4em] text-[#C5A059] mb-4">Our Commitment</p>
+              <h2 className="text-4xl md:text-5xl font-black text-[#0A192F]">Built on Transparency & Law</h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-20">
-              <div className="text-center group">
-                <div className="w-20 h-20 rounded-full border border-[#C5A059]/30 group-hover:border-[#C5A059] transition-colors flex items-center justify-center mx-auto mb-8 bg-[#152a4a] shadow-sm">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-16 mb-24">
+              <div className="flex flex-col items-center text-center group">
+                <div className="w-24 h-24 rounded-full border border-gray-100 group-hover:border-[#C5A059]/30 transition-all flex items-center justify-center mb-8 bg-gray-50 shadow-sm relative overflow-hidden">
+                  <div className="absolute inset-0 bg-[#C5A059]/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   <CheckCircle2 className="text-[#C5A059]" size={32} />
                 </div>
-                <h3 className="font-bold mb-4 text-white text-lg">100% Government Regulated</h3>
-                <p className="text-gray-400 text-xs leading-relaxed max-w-sm mx-auto">
+                <h3 className="font-bold mb-4 text-[#0A192F] text-xl">100% Registered</h3>
+                <p className="text-[#0A192F] font-medium text-sm leading-relaxed max-w-xs mx-auto">
                   Registered under the Chit Funds Act, 1982. Every group is launched only after obtaining the mandatory Prior Sanction from the Registrar.
                 </p>
               </div>
-              <div className="text-center group">
-                <div className="w-20 h-20 rounded-full border border-[#C5A059]/30 group-hover:border-[#C5A059] transition-colors flex items-center justify-center mx-auto mb-8 bg-[#152a4a] shadow-sm">
+              
+              <div className="flex flex-col items-center text-center group">
+                <div className="w-24 h-24 rounded-full border border-gray-100 group-hover:border-[#C5A059]/30 transition-all flex items-center justify-center mb-8 bg-gray-50 shadow-sm relative overflow-hidden">
+                  <div className="absolute inset-0 bg-[#C5A059]/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   <Smartphone className="text-[#C5A059]" size={32} />
                 </div>
-                <h3 className="font-bold mb-4 text-white text-lg">Digital-First Transparency</h3>
-                <p className="text-gray-400 text-xs leading-relaxed max-w-sm mx-auto">
+                <h3 className="font-bold mb-4 text-[#0A192F] text-xl">Digital-First Transparency</h3>
+                <p className="text-[#0A192F] font-medium text-sm leading-relaxed max-w-xs mx-auto">
                   We've replaced manual ledgers with a secure digital portal. Track your dividends, payments, and auction results in real-time.
                 </p>
               </div>
-              <div className="text-center group">
-                <div className="w-20 h-20 rounded-full border border-[#C5A059]/30 group-hover:border-[#C5A059] transition-colors flex items-center justify-center mx-auto mb-8 bg-[#152a4a] shadow-sm">
+
+              <div className="flex flex-col items-center text-center group">
+                <div className="w-24 h-24 rounded-full border border-gray-100 group-hover:border-[#C5A059]/30 transition-all flex items-center justify-center mb-8 bg-gray-50 shadow-sm relative overflow-hidden">
+                  <div className="absolute inset-0 bg-[#C5A059]/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   <Users className="text-[#C5A059]" size={32} />
                 </div>
-                <h3 className="font-bold mb-4 text-white text-lg">Expert Management</h3>
-                <p className="text-gray-400 text-xs leading-relaxed max-w-sm mx-auto">
-                  Led by industry veterans with a mission to modernize community savings for the next generation of Karnataka's investors.
+                <h3 className="font-bold mb-4 text-[#0A192F] text-xl">Expert Management</h3>
+                <p className="text-[#0A192F] font-medium text-sm leading-relaxed max-w-xs mx-auto">
+                  Led by industry veterans missioned to modernize community savings for the next generation of Karnataka's investors.
                 </p>
               </div>
             </div>
 
-            <div className="pt-16 border-t border-gray-800 mt-16 text-center">
-              <h3 className="text-white font-bold mb-8 text-xl">Official Compliance Certificates</h3>
+            <div className="pt-20 border-t border-gray-100 text-center">
+              <h3 className="text-[#0A192F] font-black mb-10 text-2xl">Official Compliance Certificates</h3>
               <div className="flex flex-wrap justify-center gap-6">
-                <a href="/CIN_SUMEDHA.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-[#152a4a] text-white px-8 py-4 rounded-sm text-xs font-bold uppercase tracking-widest border border-gray-700 hover:border-[#C5A059] hover:shadow-lg hover:-translate-y-1 transition-all">
+                <a href="/CIN_SUMEDHA.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-[#152a4a] text-white px-8 py-5 rounded-sm text-xs font-bold uppercase tracking-widest border border-gray-700 hover:border-[#C5A059] hover:shadow-2xl hover:-translate-y-1 transition-all">
                   <ShieldCheck size={20} className="text-[#C5A059]" /> CIN Document
                 </a>
-                <a href="/SUMEDHA CHITS PRIVATE LIMITED-GST  Certificate.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-[#152a4a] text-white px-8 py-4 rounded-sm text-xs font-bold uppercase tracking-widest border border-gray-700 hover:border-[#C5A059] hover:shadow-lg hover:-translate-y-1 transition-all">
+                <a href="/SUMEDHA CHITS PRIVATE LIMITED-GST  Certificate.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-[#152a4a] text-white px-8 py-5 rounded-sm text-xs font-bold uppercase tracking-widest border border-gray-700 hover:border-[#C5A059] hover:shadow-2xl hover:-translate-y-1 transition-all">
                   <ShieldCheck size={20} className="text-[#C5A059]" /> GST Certificate
                 </a>
-                <a href="/TAN_88305929732731_signed_SUMEDHA.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-[#152a4a] text-white px-8 py-4 rounded-sm text-xs font-bold uppercase tracking-widest border border-gray-700 hover:border-[#C5A059] hover:shadow-lg hover:-translate-y-1 transition-all">
+                <a href="/TAN_88305929732731_signed_SUMEDHA.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-[#152a4a] text-white px-8 py-5 rounded-sm text-xs font-bold uppercase tracking-widest border border-gray-700 hover:border-[#C5A059] hover:shadow-2xl hover:-translate-y-1 transition-all">
                   <ShieldCheck size={20} className="text-[#C5A059]" /> TAN Document
                 </a>
               </div>
@@ -661,21 +665,8 @@ export default function App() {
                 <p className="text-gray-400 text-sm leading-relaxed mb-12 max-w-md">
                   Bid in real-time, pay your installments, and track your dividends with our secure Android application.
                 </p>
-                <a href="https://play.google.com/store/apps/details?id=com.sreeyainfotech.chitcaresasmember" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 bg-black px-8 py-4 rounded-xl hover:bg-gray-900 transition-all hover:scale-105 shadow-xl">
-                  <motion.div
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                    className="text-white"
-                  >
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M17.5 9.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5.67 1.5 1.5 1.5 1.5-.67 1.5-1.5zm-5 0c0-.83-.67-1.5-1.5-1.5S9.5 8.67 9.5 9.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5zm5 3c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5.67 1.5 1.5 1.5 1.5-.67 1.5-1.5zm-5 0c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5.67 1.5 1.5 1.5 1.5-.67 1.5-1.5z"/>
-                      <path d="M3 3h18v18H3V3zm16 16V5H5v14h14z"/>
-                    </svg>
-                  </motion.div>
-                  <div className="text-left">
-                    <p className="text-[12px] uppercase font-bold text-gray-400">Get it on</p>
-                    <p className="text-xl font-bold">Google Play</p>
-                  </div>
+                <a href="https://play.google.com/store/apps/details?id=com.sreeyainfotech.chitcaresasmember" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 hover:scale-110 transition-transform">
+                  <img src="/Google Play Badge Logo.jpg" alt="Get it on Google Play" className="h-16 w-auto shadow-xl rounded-lg" />
                 </a>
               </div>
               <motion.div 
@@ -738,11 +729,11 @@ export default function App() {
         </section>
 
         {/* FAQ Section */}
-        <section className="py-24 bg-[#0A192F] border-t border-gray-800" id="faq">
+        <section className="py-24 bg-white border-t border-gray-100" id="faq">
           <div className="max-w-7xl mx-auto px-4">
             <div className="text-center mb-16">
               <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#C5A059] mb-4">Help Center</p>
-              <h2 className="text-3xl font-bold text-white">Frequently Asked <span className="text-[#C5A059]">Questions</span></h2>
+              <h2 className="text-3xl font-bold text-[#0A192F]">Frequently Asked <span className="text-[#C5A059]">Questions</span></h2>
             </div>
 
             <div className="max-w-3xl mx-auto">
@@ -835,7 +826,7 @@ export default function App() {
           <div className="flex flex-col items-center text-center mb-16">
             <Logo light={true} className="mb-12" />
             <nav className="flex flex-wrap justify-center gap-x-8 gap-y-4 mb-8">
-              <NavLink href="#">Home</NavLink>
+              <NavLink href={homeUrl}>Home</NavLink>
               <NavLink href="#schemes">Schemes</NavLink>
               <NavLink href="#compliance">Compliance</NavLink>
               <NavLink href="#faq">FAQ</NavLink>
