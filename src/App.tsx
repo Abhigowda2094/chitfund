@@ -36,7 +36,7 @@ const Logo = ({ className, light = false }: { className?: string; light?: boolea
     <img src="/new logo.png" alt="Sumedha Chits Logo" className="h-28 w-auto object-contain drop-shadow-sm shrink-0" />
     <div className="flex flex-col leading-none">
       <span className={cn("font-bold tracking-tight flex items-baseline", light ? "text-white" : "text-[#0A192F]")}>
-        <span className={cn(light ? "text-white" : "text-[#0A192F]", "text-[2.5rem] leading-none")}>SU</span>
+        <span className={cn(light ? "text-white" : "text-[#0A192F]", "text-2xl leading-none")}>SU</span>
         <span className="text-2xl">MEDHA</span>
       </span>
       <span className={cn("text-xs font-bold tracking-[0.2em] mt-1", light ? "text-gray-300" : "text-[#0A192F]")}>CHITS PVT LTD</span>
@@ -95,7 +95,7 @@ const SchemeCard = ({
   subscription: string;
   isPopular?: boolean 
 }) => (
-  <div className={`relative p-8 rounded-sm flex flex-col items-center text-center group transition-all duration-500 hover:z-20 ${isPopular ? 'bg-white border-4 border-[#C5A059] md:scale-110 z-10 shadow-[0_20px_60px_rgba(197,160,89,0.3)] ring-4 ring-[#C5A059]/10' : 'bg-white border-2 border-gray-100'}`}>
+  <div className={`relative p-8 rounded-sm flex flex-col items-center text-center group transition-all duration-500 hover:z-20 ${isPopular ? 'bg-white border-4 border-[#C5A059] md:scale-115 z-10 shadow-[0_20px_60px_rgba(197,160,89,0.3)] ring-4 ring-[#C5A059]/10' : 'bg-white border-2 border-gray-100'}`}>
     {isPopular && (
       <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#C5A059] via-[#E5BF77] to-[#C5A059] text-[#0A192F] text-[10px] font-black px-6 py-2 rounded-full uppercase tracking-[0.2em] shadow-lg whitespace-nowrap border border-[#C5A059] z-20">
         Most Popular
@@ -125,7 +125,7 @@ const SchemeCard = ({
 const FAQItem = ({ question, answer }: { question: string; answer: string }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="border-b border-gray-100 bg-white mb-2 shadow-sm rounded-sm">
+    <div className="bg-white mb-4 shadow-sm rounded-2xl border border-gray-100 overflow-hidden">
       <button 
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between p-6 text-left text-[#0A192F] hover:bg-gray-50 transition-colors"
@@ -162,6 +162,7 @@ const WhatsAppIcon = ({ size = 24 }: { size?: number }) => (
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showAllSchemes, setShowAllSchemes] = useState(false);
+  const [showAllQuestions, setShowAllQuestions] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
   // Smooth scroll functionality
@@ -207,7 +208,7 @@ export default function App() {
   ];
 
   const displayedSchemes = showAllSchemes ? SCHEMES : SCHEMES.slice(0, 9);
-  const homeUrl = "/";
+  const homeUrl = "#hero";
 
   return (
     <div className="min-h-screen bg-white font-sans text-[#0A192F] selection:bg-[#C5A059] selection:text-white">
@@ -254,7 +255,7 @@ export default function App() {
 
       <main>
         {/* Hero Section */}
-        <section className="relative pt-20 pb-32 overflow-hidden">
+        <section className="relative pt-20 pb-32 overflow-hidden" id="hero">
           {/* Parallax Background Elements */}
           <div className="absolute inset-0 overflow-hidden">
             <motion.div 
@@ -293,7 +294,7 @@ export default function App() {
               transition={{ delay: 0.2, duration: 0.8 }}
             >
               <motion.h2 
-                className="text-[16px] md:text-[20px] font-extrabold uppercase tracking-widest text-[#4169E1] mb-4 drop-shadow-sm"
+                className="text-[16px] md:text-[20px] font-extrabold uppercase tracking-widest text-[#0A192F] mb-4 drop-shadow-sm"
                 whileHover={{ scale: 1.02 }}
                 transition={{ type: "spring", stiffness: 400 }}
               >
@@ -541,7 +542,7 @@ export default function App() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
-                className="bg-[#0A192F] p-8 rounded-sm text-white"
+                className="bg-white p-8 rounded-sm text-[#0A192F] border border-gray-100 shadow-xl"
               >
                 <h3 className="text-[#C5A059] font-bold uppercase tracking-widest text-xs mb-8">Our Services</h3>
                 <ul className="space-y-4 text-left">
@@ -552,7 +553,7 @@ export default function App() {
                     "Easy payment and collection system",
                     "Customer support and guidance"
                   ].map((service, i) => (
-                    <li key={i} className="flex items-center gap-3 text-xs text-gray-300">
+                    <li key={i} className="flex items-center gap-3 text-xs text-[#0A192F]/70">
                       <CheckCircle2 size={16} className="text-[#C5A059]" /> {service}
                     </li>
                   ))}
@@ -583,11 +584,11 @@ export default function App() {
         </section>
 
         {/* Why Choose Us Section */}
-        <section className="py-24">
+        <section className="py-24 bg-[#152a4a] text-white">
           <div className="max-w-7xl mx-auto px-4">
             <div className="text-center mb-16">
               <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#C5A059] mb-4">The Advantage</p>
-              <h2 className="text-3xl font-bold text-[#0A192F]">Why Choose Us?</h2>
+              <h2 className="text-3xl font-bold text-white">Why Choose Us?</h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -628,12 +629,12 @@ export default function App() {
                 >
                   <motion.div
                     whileHover={{ scale: 1.1 }}
-                    className="w-20 h-20 rounded-full border border-gray-100 mx-auto mb-8 flex items-center justify-center transition-colors group-hover:border-[#C5A059]/30"
+                    className="w-20 h-20 rounded-full border border-gray-700 mx-auto mb-8 flex items-center justify-center transition-colors group-hover:border-[#C5A059]/30 bg-[#0A192F]"
                   >
                     <feature.icon className="text-[#C5A059]" size={36} />
                   </motion.div>
-                  <h3 className="text-[#0A192F] font-bold text-lg mb-4">{feature.title}</h3>
-                  <p className="text-[#0A192F] font-medium text-sm leading-relaxed">
+                  <h3 className="text-white font-bold text-lg mb-4">{feature.title}</h3>
+                  <p className="text-gray-400 font-medium text-sm leading-relaxed">
                     {feature.description}
                   </p>
                 </motion.div>
@@ -643,29 +644,30 @@ export default function App() {
         </section>
 
         {/* Board Messages Section */}
-        <section className="py-24 bg-[#0A192F] border-t border-gray-800">
+        <section className="py-24 bg-white border-t border-gray-100">
           <div className="max-w-7xl mx-auto px-4">
             <div className="text-center mb-16">
               <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#C5A059] mb-4">Our Leaders</p>
-              <h2 className="text-3xl font-bold text-white">Messages from the Board</h2>
+              <h2 className="text-3xl font-bold text-[#0A192F]">Messages from the Board</h2>
             </div>
 
+              {/* Board Messages Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
               {[
                 { name: "Lavanya Madam", role: "Director", msg: "At Sumedha Chits Pvt. Ltd., we are committed to providing secure, transparent, and reliable chit solutions. Our focus is on building trust and helping customers achieve their financial goals with confidence." },
                 { name: "Mahesh Sir", role: "Director", msg: "We believe in simple, disciplined, and dependable financial growth. At Sumedha Chits Pvt. Ltd., we strive to deliver value-driven schemes with integrity and customer-first service." }
               ].map((leader, i) => (
-                <div key={i} className="bg-[#0A192F] p-8 rounded-sm text-white">
+                <div key={i} className="bg-gray-50 p-8 rounded-sm text-[#0A192F] border border-gray-100">
                   <div className="flex items-center gap-4 mb-6">
-                    <div className="w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center overflow-hidden">
-                      <Users className="text-gray-400" size={24} />
+                    <div className="w-12 h-12 rounded-full bg-white border border-gray-200 flex items-center justify-center overflow-hidden">
+                      <Users className="text-[#C5A059]" size={24} />
                     </div>
                     <div>
                       <h4 className="font-bold text-sm">{leader.name}</h4>
                       <p className="text-[#C5A059] text-[10px] font-bold uppercase tracking-widest">{leader.role}</p>
                     </div>
                   </div>
-                  <p className="text-gray-400 text-xs italic leading-relaxed">"{leader.msg}"</p>
+                  <p className="text-[#0A192F]/60 text-xs italic leading-relaxed">"{leader.msg}"</p>
                 </div>
               ))}
             </div>
@@ -724,13 +726,13 @@ export default function App() {
             <div className="pt-20 border-t border-gray-100 text-center">
               <h3 className="text-[#0A192F] font-black mb-10 text-2xl">Official Compliance Certificates</h3>
               <div className="flex flex-wrap justify-center gap-6">
-                <a href="/CIN_SUMEDHA.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-[#152a4a] text-white px-8 py-5 rounded-sm text-xs font-bold uppercase tracking-widest border border-gray-700 hover:border-[#C5A059] hover:shadow-2xl hover:-translate-y-1 transition-all">
+                <a href="/CIN_SUMEDHA.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-white text-[#0A192F] px-8 py-5 rounded-sm text-xs font-bold uppercase tracking-widest border border-gray-200 hover:border-[#C5A059] hover:shadow-2xl hover:-translate-y-1 transition-all">
                   <ShieldCheck size={20} className="text-[#C5A059]" /> CIN Document
                 </a>
-                <a href="/SUMEDHA CHITS PRIVATE LIMITED-GST  Certificate.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-[#152a4a] text-white px-8 py-5 rounded-sm text-xs font-bold uppercase tracking-widest border border-gray-700 hover:border-[#C5A059] hover:shadow-2xl hover:-translate-y-1 transition-all">
+                <a href="/SUMEDHA CHITS PRIVATE LIMITED-GST  Certificate.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-white text-[#0A192F] px-8 py-5 rounded-sm text-xs font-bold uppercase tracking-widest border border-gray-200 hover:border-[#C5A059] hover:shadow-2xl hover:-translate-y-1 transition-all">
                   <ShieldCheck size={20} className="text-[#C5A059]" /> GST Certificate
                 </a>
-                <a href="/TAN_88305929732731_signed_SUMEDHA.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-[#152a4a] text-white px-8 py-5 rounded-sm text-xs font-bold uppercase tracking-widest border border-gray-700 hover:border-[#C5A059] hover:shadow-2xl hover:-translate-y-1 transition-all">
+                <a href="/TAN_88305929732731_signed_SUMEDHA.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-white text-[#0A192F] px-8 py-5 rounded-sm text-xs font-bold uppercase tracking-widest border border-gray-200 hover:border-[#C5A059] hover:shadow-2xl hover:-translate-y-1 transition-all">
                   <ShieldCheck size={20} className="text-[#C5A059]" /> TAN Document
                 </a>
               </div>
@@ -820,50 +822,27 @@ export default function App() {
             </div>
 
             <div className="max-w-3xl mx-auto">
-              <FAQItem 
-                question="1. What is a chit fund?" 
-                answer="A chit fund is a financial arrangement where a group of members contribute a fixed amount every month, and one member receives the collected amount through an auction or draw." 
-              />
-              <FAQItem 
-                question="2. How does a chit scheme work?" 
-                answer="In a chit scheme, all members pay a fixed monthly installment. Every month, one member receives the chit amount through an auction process or predetermined method." 
-              />
-              <FAQItem 
-                question="3. Who can join a chit scheme?" 
-                answer="Any individual who meets the eligibility criteria and agrees to the terms and conditions can join a chit scheme." 
-              />
-              <FAQItem 
-                question="4. Is my money safe in a chit fund?" 
-                answer="Yes, when managed by a reliable company like Sumedha Chits Private Limited, chit funds are conducted in a structured and transparent manner according to company policies." 
-              />
-              <FAQItem 
-                question="5. What are the benefits of joining a chit fund?" 
-                answer="Regular savings habit, access to funds when needed, flexible financial support, and a community-based financial system." 
-              />
-              <FAQItem 
-                question="6. How are chit auctions conducted?" 
-                answer="Chit auctions are conducted periodically where members bid for the chit amount. The member offering the highest discount receives the amount." 
-              />
-              <FAQItem 
-                question="7. What documents are required to join?" 
-                answer="Generally required documents include: Identity proof, Address proof, Passport size photographs, and Bank details." 
-              />
-              <FAQItem 
-                question="8. Can I join more than one chit scheme?" 
-                answer="Yes, a customer can join multiple chit schemes depending on eligibility and company policies." 
-              />
-              <FAQItem 
-                question="9. How can I make payments?" 
-                answer="Payments can be made through authorized company representatives, bank transfer, or other payment methods provided by the company." 
-              />
-              <FAQItem 
-                question="10. How can I contact customer support?" 
-                answer="You can contact Sumedha Chits Private Limited through our branch offices, phone numbers, or the contact form available on our website." 
-              />
+              {[
+                { q: "1. What is a chit fund?", a: "A chit fund is a financial arrangement where a group of members contribute a fixed amount every month, and one member receives the collected amount through an auction or draw." },
+                { q: "2. How does a chit scheme work?", a: "In a chit scheme, all members pay a fixed monthly installment. Every month, one member receives the chit amount through an auction process or predetermined method." },
+                { q: "3. Who can join a chit scheme?", a: "Any individual who meets the eligibility criteria and agrees to the terms and conditions can join a chit scheme." },
+                { q: "4. Is my money safe in a chit fund?", a: "Yes, when managed by a reliable company like Sumedha Chits Private Limited, chit funds are conducted in a structured and transparent manner according to company policies." },
+                { q: "5. What are the benefits of joining a chit fund?", a: "Regular savings habit, access to funds when needed, flexible financial support, and a community-based financial system." },
+                { q: "6. How are chit auctions conducted?", a: "Chit auctions are conducted periodically where members bid for the chit amount. The member offering the highest discount receives the amount." },
+                { q: "7. What documents are required to join?", a: "Generally required documents include: Identity proof, Address proof, Passport size photographs, and Bank details." },
+                { q: "8. Can I join more than one chit scheme?", a: "Yes, a customer can join multiple chit schemes depending on eligibility and company policies." },
+                { q: "9. How can I make payments?", a: "Payments can be made through authorized company representatives, bank transfer, or other payment methods provided by the company." },
+                { q: "10. How can I contact customer support?", a: "You can contact Sumedha Chits Private Limited through our branch offices, phone numbers, or the contact form available on our website." }
+              ].slice(0, showAllQuestions ? 10 : 5).map((faq, i) => (
+                <FAQItem key={i} question={faq.q} answer={faq.a} />
+              ))}
               
               <div className="mt-12 flex justify-center">
-                <button className="border border-[#C5A059] px-8 py-3 text-[10px] font-bold uppercase tracking-widest text-[#C5A059] hover:bg-[#C5A059] hover:text-white transition-all">
-                  View All Questions
+                <button 
+                  onClick={() => setShowAllQuestions(!showAllQuestions)}
+                  className="border border-[#C5A059] px-8 py-3 text-[10px] font-bold uppercase tracking-widest text-[#C5A059] hover:bg-[#C5A059] hover:text-white transition-all"
+                >
+                  {showAllQuestions ? "Show Less" : "View All Questions"}
                 </button>
               </div>
             </div>
@@ -884,10 +863,10 @@ export default function App() {
                 <div className="space-y-8">
                   <div className="flex gap-4">
                     <MapPin className="text-[#C5A059] shrink-0" size={20} />
-                    <p className="text-gray-400 text-xs leading-relaxed">
-                      Sumedha Chits Private Limited <br />
+                    <div className="text-gray-400 text-xs leading-relaxed">
+                      <div className="bg-white px-2 py-0.5 inline-block text-[#0A192F] font-bold rounded-sm mb-1 uppercase tracking-tight">Sumedha Chits Private Limited</div> <br />
                       No.3FC-401, Raghav's Complex, 4th Cross, East of New BDA Layout Ramamurthynagar, Bengaluru - 560016
-                    </p>
+                    </div>
                   </div>
                   <div className="flex gap-4">
                     <Phone className="text-[#C5A059] shrink-0" size={20} />
@@ -926,11 +905,11 @@ export default function App() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-[#0A192F] border-t border-gray-800 pt-20 pb-10">
+      {/* Pre-Footer Links Section */}
+      <section className="py-20 bg-white border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-col items-center text-center mb-16">
-            <Logo light={true} className="mb-12" />
+          <div className="flex flex-col items-center text-center">
+            <Logo light={false} className="mb-12" />
             <nav className="flex flex-wrap justify-center gap-x-8 gap-y-4 mb-8">
               <NavLink href={homeUrl}>Home</NavLink>
               <NavLink href="#about">About</NavLink>
@@ -939,15 +918,20 @@ export default function App() {
               <NavLink href="#faq">FAQ</NavLink>
               <NavLink href="#support">Support</NavLink>
             </nav>
-            <div className="flex gap-8 text-[10px] font-bold uppercase tracking-widest text-gray-400">
-              <a href="/privacy" className="hover:text-[#C5A059]">Privacy Policy</a>
-              <a href="/terms" className="hover:text-[#C5A059]">Terms & Conditions</a>
+            <div className="flex gap-8 text-[10px] font-bold uppercase tracking-widest">
+              <a href="/privacy" className="text-gray-600 hover:text-[#C5A059] transition-colors">Privacy Policy</a>
+              <a href="/terms" className="text-gray-600 hover:text-[#C5A059] transition-colors">Terms & Conditions</a>
             </div>
           </div>
-          
-          <div className="text-center pt-10 border-t border-gray-800">
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-[#0A192F] py-12 border-t border-gray-800">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center">
             <p className="text-[9px] text-gray-400 uppercase tracking-widest mb-2">
-              © 2026 SUMEDHA CHITS PRIVATE LIMITED. ALL RIGHTS RESERVED.
+              © 2026 <span className="text-white font-bold">SUMEDHA CHITS PRIVATE LIMITED</span>. ALL RIGHTS RESERVED.
             </p>
             <p className="text-[9px] text-gray-400 uppercase tracking-widest">
               CIN: U64190KA2026PTC217660 | Regd. Office: Bengaluru, India
