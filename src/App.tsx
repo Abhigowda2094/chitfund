@@ -35,12 +35,12 @@ const Logo = ({ className, light = false }: { className?: string; light?: boolea
   <div className={cn("flex items-center gap-4", className)}>
     <img src="/new logo.png" alt="Sumedha Chits Logo" className="h-28 w-auto object-contain drop-shadow-sm shrink-0" />
     <div className="flex flex-col leading-none">
-      <span className={cn("font-bold tracking-tight flex items-baseline", light ? "text-white" : "text-[#0A192F]")}>
+      <span className={cn("font-bold tracking-tight flex items-baseline", light ? "text-white" : "text-[#002366]")}>
         <span className="text-2xl leading-none">S</span>
         <span className="text-7xl leading-none px-0.5 -mb-2">U</span>
         <span className="text-2xl leading-none">MEDHA</span>
       </span>
-      <span className={cn("text-xs font-bold tracking-[0.2em] mt-1", light ? "text-gray-300" : "text-[#0A192F]")}>CHITS PVT LTD</span>
+      <span className={cn("text-xs font-bold tracking-[0.2em] mt-1", light ? "text-gray-300" : "text-[#002366]")}>CHITS PVT LTD</span>
     </div>
   </div>
 );
