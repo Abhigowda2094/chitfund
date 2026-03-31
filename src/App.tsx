@@ -36,8 +36,9 @@ const Logo = ({ className, light = false }: { className?: string; light?: boolea
     <img src="/new logo.png" alt="Sumedha Chits Logo" className="h-28 w-auto object-contain drop-shadow-sm shrink-0" />
     <div className="flex flex-col leading-none">
       <span className={cn("font-bold tracking-tight flex items-baseline", light ? "text-white" : "text-[#0A192F]")}>
-        <span className={cn(light ? "text-white" : "text-[#0A192F]", "text-2xl leading-none")}>SU</span>
-        <span className="text-2xl">MEDHA</span>
+        <span className="text-2xl leading-none">S</span>
+        <span className="text-7xl leading-none px-0.5 -mb-2">U</span>
+        <span className="text-2xl leading-none">MEDHA</span>
       </span>
       <span className={cn("text-xs font-bold tracking-[0.2em] mt-1", light ? "text-gray-300" : "text-[#0A192F]")}>CHITS PVT LTD</span>
     </div>
@@ -197,14 +198,13 @@ export default function App() {
 
   const SCHEMES = [
     { title: "Starter Plan", amount: "2,00,000", duration: "20", dividend: "2,500", subscription: "10,000" },
-    { title: "Standard Plan", amount: "3,00,000", duration: "25", dividend: "3,000", subscription: "12,000" },
+    { title: "Growth Plan", amount: "3,00,000", duration: "25", dividend: "3,000", subscription: "12,000" },
     { title: "Pro Plan", amount: "5,00,000", duration: "20", dividend: "5,000", subscription: "25,000" },
-    { title: "Growth Plan", amount: "5,00,000", duration: "25", dividend: "5,000", subscription: "20,000" },
-    { title: "Popular Selection", amount: "1,05,000", duration: "40", dividend: "1,312", subscription: "2,625", isPopular: true },
+    { title: "Flexi Plan", amount: "5,00,000", duration: "25", dividend: "5,000", subscription: "20,000" },
     { title: "Saver Plan", amount: "5,00,000", duration: "40", dividend: "4,375", subscription: "12,500" },
-    { title: "Investor Plan", amount: "10,00,000", duration: "30", dividend: "8,333", subscription: "33,333" },
-    { title: "Fortune Plan", amount: "10,00,000", duration: "40", dividend: "8,750", subscription: "25,000" },
-    { title: "Micro Saver", amount: "1,50,000", duration: "50", dividend: "2,000", subscription: "3,000" }
+    { title: "Fortune Plan", amount: "10,00,000", duration: "30", dividend: "8,333", subscription: "33,333" },
+    { title: "Investor Plan", amount: "10,00,000", duration: "40", dividend: "8,750", subscription: "25,000" },
+    { title: "Premium Plan", amount: "25,00,000", duration: "40", dividend: "21,875", subscription: "62,500", isPopular: true }
   ];
 
   const displayedSchemes = showAllSchemes ? SCHEMES : SCHEMES.slice(0, 9);
@@ -877,7 +877,7 @@ export default function App() {
                   <div className="flex gap-4">
                     <Mail className="text-[#C5A059] shrink-0" size={20} />
                     <p className="text-gray-400 text-xs text-left">
-                      sumedhachits@gmail.com <br/>
+                      info@sumedhachits.com <br/>
                       <span className="text-[9px] uppercase tracking-widest text-[#C5A059]/60">Customer support team is always ready to assist you.</span>
                     </p>
                   </div>
@@ -930,8 +930,12 @@ export default function App() {
       <footer className="bg-[#0A192F] py-12 border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center">
-            <p className="text-[9px] text-gray-400 uppercase tracking-widest mb-2">
-              © 2026 <span className="text-white font-bold">SUMEDHA CHITS PRIVATE LIMITED</span>. ALL RIGHTS RESERVED.
+            <p className="text-[9px] text-gray-400 uppercase tracking-widest mb-2 flex items-center justify-center gap-1">
+              © 2026 <span className="text-white font-bold flex items-baseline gap-0.5">
+                <span>S</span>
+                <span className="text-[27px] leading-none -mb-1">U</span>
+                <span>MEDHA CHITS PRIVATE LIMITED</span>
+              </span>. ALL RIGHTS RESERVED.
             </p>
             <p className="text-[9px] text-gray-400 uppercase tracking-widest">
               CIN: U64190KA2026PTC217660 | Regd. Office: Bengaluru, India
