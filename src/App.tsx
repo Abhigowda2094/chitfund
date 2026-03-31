@@ -317,9 +317,7 @@ export default function App() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8, duration: 0.8 }}
               >
-                <span className="text-5xl md:text-6xl">S</span>
-                <span className="text-7xl md:text-8xl leading-none -mb-2">U</span>
-                <span className="text-5xl md:text-6xl">MEDHA CHITS PVT LIMITED</span> <br />
+                SUMEDHA CHITS PVT LIMITED <br />
                 <motion.span 
                   className="text-[#C5A059] inline-block text-3xl md:text-4xl"
                   whileHover={{ scale: 1.05 }}
