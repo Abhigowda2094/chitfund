@@ -200,7 +200,7 @@ export default function App() {
     { title: "Starter Plan", amount: "2,00,000", duration: "20", dividend: "2,500", subscription: "10,000" },
     { title: "Growth Plan", amount: "3,00,000", duration: "25", dividend: "3,000", subscription: "12,000" },
     { title: "Pro Plan", amount: "5,00,000", duration: "20", dividend: "5,000", subscription: "25,000" },
-    { title: "Flexi Plan", amount: "5,00,000", duration: "25", dividend: "5,000", subscription: "20,000" },
+    { title: "Flexi Plan", amount: "5,00,000", duration: "25", dividend: "6,250", subscription: "20,000" },
     { title: "Saver Plan", amount: "5,00,000", duration: "40", dividend: "4,375", subscription: "12,500" },
     { title: "Fortune Plan", amount: "10,00,000", duration: "30", dividend: "8,333", subscription: "33,333" },
     { title: "Investor Plan", amount: "10,00,000", duration: "40", dividend: "8,750", subscription: "25,000" },
@@ -719,14 +719,8 @@ export default function App() {
             <div className="pt-20 border-t border-gray-100 text-center">
               <h3 className="text-[#0A192F] font-black mb-10 text-2xl">Official Compliance Certificates</h3>
               <div className="flex flex-wrap justify-center gap-6">
-                <a href="/CIN_SUMEDHA.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-white text-[#0A192F] px-8 py-5 rounded-sm text-xs font-bold uppercase tracking-widest border border-gray-200 hover:border-[#C5A059] hover:shadow-2xl hover:-translate-y-1 transition-all">
-                  <ShieldCheck size={20} className="text-[#C5A059]" /> CIN Document
-                </a>
-                <a href="/SUMEDHA CHITS PRIVATE LIMITED-GST  Certificate.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-white text-[#0A192F] px-8 py-5 rounded-sm text-xs font-bold uppercase tracking-widest border border-gray-200 hover:border-[#C5A059] hover:shadow-2xl hover:-translate-y-1 transition-all">
-                  <ShieldCheck size={20} className="text-[#C5A059]" /> GST Certificate
-                </a>
-                <a href="/TAN_88305929732731_signed_SUMEDHA (1).pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-white text-[#002366] px-8 py-5 rounded-sm text-xs font-bold uppercase tracking-widest border border-gray-200 hover:border-[#C5A059] hover:shadow-2xl hover:-translate-y-1 transition-all">
-                  <ShieldCheck size={20} className="text-[#C5A059]" /> TAN Document
+                <a href="/SUMEDHA CHIT LICENSE.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-white text-[#0A192F] px-8 py-5 rounded-sm text-xs font-bold uppercase tracking-widest border border-gray-200 hover:border-[#C5A059] hover:shadow-2xl hover:-translate-y-1 transition-all">
+                  <ShieldCheck size={20} className="text-[#C5A059]" /> Chit License
                 </a>
               </div>
             </div>
