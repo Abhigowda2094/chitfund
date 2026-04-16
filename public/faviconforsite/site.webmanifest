@@ -1,0 +1,14 @@
+{
+  "name": "Sumedha Chits Private Limited",
+  "short_name": "Sumedha Chits",
+  "description": "Karnataka's regulated digital chit fund. Safe, transparent and government-registered chit schemes in Bengaluru.",
+  "icons": [
+    { "src": "/faviconforsite/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/faviconforsite/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "theme_color": "#002366",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/"
+}
