@@ -197,10 +197,11 @@ export default function App() {
   }, []);
 
   const SCHEMES = [
+    { title: "Basic Plan", amount: "1,00,000", duration: "20", dividend: "1,250", subscription: "5,000" },
     { title: "Starter Plan", amount: "2,00,000", duration: "20", dividend: "2,500", subscription: "10,000" },
     { title: "Growth Plan", amount: "3,00,000", duration: "25", dividend: "3,000", subscription: "12,000" },
-    { title: "Pro Plan", amount: "5,00,000", duration: "20", dividend: "5,000", subscription: "25,000" },
-    { title: "Flexi Plan", amount: "5,00,000", duration: "25", dividend: "6,250", subscription: "20,000" },
+    { title: "Pro Plan", amount: "5,00,000", duration: "20", dividend: "6,250", subscription: "25,000" },
+    { title: "Flexi Plan", amount: "5,00,000", duration: "25", dividend: "6,250", subscription: "25,000" },
     { title: "Saver Plan", amount: "5,00,000", duration: "40", dividend: "4,375", subscription: "12,500" },
     { title: "Fortune Plan", amount: "10,00,000", duration: "30", dividend: "8,333", subscription: "33,333" },
     { title: "Investor Plan", amount: "10,00,000", duration: "40", dividend: "8,750", subscription: "25,000" },
@@ -224,6 +225,7 @@ export default function App() {
             <NavLink href="#schemes" className="text-[#002366]">Schemes</NavLink>
             <NavLink href="#compliance" className="text-[#002366]">Compliance</NavLink>
             <NavLink href="#faq" className="text-[#002366]">FAQ</NavLink>
+            <NavLink href="#contact-form" className="text-[#002366]">Contact</NavLink>
             <NavLink href="#support" className="text-[#002366]">Support</NavLink>
           </nav>
 
@@ -247,6 +249,7 @@ export default function App() {
               <NavLink href="#schemes">Schemes</NavLink>
               <NavLink href="#compliance">Compliance</NavLink>
               <NavLink href="#faq">FAQ</NavLink>
+              <NavLink href="#contact-form">Contact</NavLink>
               <NavLink href="#support">Support</NavLink>
             </motion.div>
           )}
@@ -836,6 +839,107 @@ export default function App() {
           </div>
         </section>
 
+        {/* Contact Form Section */}
+        <section className="py-24 bg-white border-t border-gray-100" id="contact-form">
+          <div className="max-w-3xl mx-auto px-4">
+            <div className="text-center mb-16">
+              <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#C5A059] mb-4">Get In Touch</p>
+              <h2 className="text-3xl font-bold text-[#002366]">Enquiry Form</h2>
+              <p className="text-sm text-gray-600 mt-4">Fill out the form below and we'll connect with you on WhatsApp</p>
+            </div>
+
+            <form 
+              onSubmit={(e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                const name = formData.get('name');
+                const phone = formData.get('phone');
+                const scheme = formData.get('scheme');
+                const message = formData.get('message');
+                
+                const whatsappMessage = `Hello, I'm interested in joining SUMEDHA Chits!%0A%0AName: ${name}%0APhone: ${phone}%0AScheme: ${scheme}%0A%0AMessage: ${message}`;
+                window.open(`https://wa.me/919964556559?text=${whatsappMessage}`, '_blank');
+              }}
+              className="bg-gray-50 p-8 rounded-sm border border-gray-200"
+            >
+              <div className="space-y-6">
+                <div>
+                  <label htmlFor="name" className="block text-xs font-bold uppercase tracking-widest text-[#0A192F] mb-2">
+                    Full Name *
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-sm text-sm focus:outline-none focus:border-[#C5A059] transition-colors"
+                    placeholder="Enter your full name"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="phone" className="block text-xs font-bold uppercase tracking-widest text-[#0A192F] mb-2">
+                    Phone Number *
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    required
+                    pattern="[0-9]{10}"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-sm text-sm focus:outline-none focus:border-[#C5A059] transition-colors"
+                    placeholder="Enter 10-digit mobile number"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="scheme" className="block text-xs font-bold uppercase tracking-widest text-[#0A192F] mb-2">
+                    Select Scheme *
+                  </label>
+                  <select
+                    id="scheme"
+                    name="scheme"
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-sm text-sm focus:outline-none focus:border-[#C5A059] transition-colors bg-white"
+                  >
+                    <option value="">Choose a scheme</option>
+                    <option value="Basic Plan - ₹1,00,000 (20M)">Basic Plan - ₹1,00,000 (20M)</option>
+                    <option value="Starter Plan - ₹2,00,000 (20M)">Starter Plan - ₹2,00,000 (20M)</option>
+                    <option value="Growth Plan - ₹3,00,000 (25M)">Growth Plan - ₹3,00,000 (25M)</option>
+                    <option value="Pro Plan - ₹5,00,000 (20M)">Pro Plan - ₹5,00,000 (20M)</option>
+                    <option value="Flexi Plan - ₹5,00,000 (25M)">Flexi Plan - ₹5,00,000 (25M)</option>
+                    <option value="Saver Plan - ₹5,00,000 (40M)">Saver Plan - ₹5,00,000 (40M)</option>
+                    <option value="Fortune Plan - ₹10,00,000 (30M)">Fortune Plan - ₹10,00,000 (30M)</option>
+                    <option value="Investor Plan - ₹10,00,000 (40M)">Investor Plan - ₹10,00,000 (40M)</option>
+                    <option value="Premium Plan - ₹25,00,000 (40M)">Premium Plan - ₹25,00,000 (40M)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="block text-xs font-bold uppercase tracking-widest text-[#0A192F] mb-2">
+                    Additional Message (Optional)
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={4}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-sm text-sm focus:outline-none focus:border-[#C5A059] transition-colors resize-none"
+                    placeholder="Any questions or special requirements?"
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-[#25D366] text-white py-4 rounded-sm text-xs font-bold uppercase tracking-widest hover:bg-[#1ebd57] transition-colors flex items-center justify-center gap-3"
+                >
+                  <WhatsAppIcon size={20} />
+                  Submit via WhatsApp
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+
         {/* Support & Location Section */}
         <section className="py-24 bg-[#0A192F] border-t border-gray-800" id="support">
           <div className="max-w-7xl mx-auto px-4">
@@ -904,6 +1008,7 @@ export default function App() {
               <NavLink href="#schemes">Schemes</NavLink>
               <NavLink href="#compliance">Compliance</NavLink>
               <NavLink href="#faq">FAQ</NavLink>
+              <NavLink href="#contact-form">Contact</NavLink>
               <NavLink href="#support">Support</NavLink>
             </nav>
             <div className="flex gap-8 text-[10px] font-bold uppercase tracking-widest">
