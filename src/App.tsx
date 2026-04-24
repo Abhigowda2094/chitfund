@@ -200,7 +200,7 @@ export default function App() {
     { title: "Basic Plan", amount: "1,00,000", duration: "20", dividend: "1,250", subscription: "5,000" },
     { title: "Starter Plan", amount: "2,00,000", duration: "20", dividend: "2,500", subscription: "10,000" },
     { title: "Growth Plan", amount: "3,00,000", duration: "25", dividend: "3,000", subscription: "12,000" },
-    { title: "Pro Plan", amount: "5,00,000", duration: "20", dividend: "5,000", subscription: "25,000" },
+    { title: "Pro Plan", amount: "5,00,000", duration: "20", dividend: "6,250", subscription: "25,000" },
     { title: "Flexi Plan", amount: "5,00,000", duration: "25", dividend: "5,000", subscription: "20,000" },
     { title: "Saver Plan", amount: "5,00,000", duration: "40", dividend: "4,375", subscription: "12,500" },
     { title: "Fortune Plan", amount: "10,00,000", duration: "30", dividend: "8,333", subscription: "33,333" },
